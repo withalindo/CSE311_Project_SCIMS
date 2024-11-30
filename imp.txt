@@ -1,0 +1,57 @@
+CREATE TABLE Registration (
+    Registration_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Full_Name VARCHAR(200) NOT NULL,
+    Gender VARCHAR(10) CHECK (Gender IN ('Male', 'Female', 'Others')),
+    Date_Of_Birth DATE NOT NULL,
+    Address VARCHAR(300) NOT NULL,
+    Contact_Number VARCHAR(15),
+    Email VARCHAR(100) UNIQUE,
+    National_ID VARCHAR(30) UNIQUE NOT NULL,
+    Approval_Status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    Registration_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO Citizen_Info (Citizen_ID, Name, Address, Contact_Number, Date_Of_Birth, Email, Gender, National_ID)
+SELECT 
+    Registration_ID AS Citizen_ID, 
+    Full_Name AS Name, 
+    Address, 
+    Contact_Number, 
+    Date_Of_Birth, 
+    Email, 
+    Gender, 
+    National_ID
+FROM Registration
+WHERE Approval_Status = 'Approved'
+ON DUPLICATE KEY UPDATE
+    Name = VALUES(Name),
+    Address = VALUES(Address),
+    Contact_Number = VALUES(Contact_Number),
+    Email = VALUES(Email),
+    Gender = VALUES(Gender),
+    National_ID = VALUES(National_ID);
+//trigger part
+DELIMITER $$
+
+CREATE TRIGGER After_Approval_Update
+AFTER UPDATE ON Registration
+FOR EACH ROW
+BEGIN
+    IF NEW.Approval_Status = 'Approved' THEN
+        INSERT INTO Citizen_Info (
+            Citizen_ID, Name, Address, Contact_Number, Date_Of_Birth, Email, Gender, National_ID, City_Registration_Date
+        )
+        VALUES (
+            NEW.Registration_ID, NEW.Full_Name, NEW.Address, NEW.Contact_Number, 
+            NEW.Date_Of_Birth, NEW.Email, NEW.Gender, NEW.National_ID, NEW.Registration_Date
+        )
+        ON DUPLICATE KEY UPDATE
+            Name = VALUES(Name),
+            Address = VALUES(Address),
+            Contact_Number = VALUES(Contact_Number),
+            Email = VALUES(Email),
+            Gender = VALUES(Gender),
+            National_ID = VALUES(National_ID);
+    END IF;
+END$$
+
+DELIMITER ;
