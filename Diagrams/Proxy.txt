@@ -1,7 +1,5 @@
-
-CREATE DATABASE SCIMS;
-
-USE SCIMS;
+CREATE DATABASE SCIMS_test_2;
+USE SCIMS_test_2;
 -- Citizen Registration Table
 CREATE TABLE CitizenRegistration (
      Registration_ID VARCHAR(500) PRIMARY KEY,
@@ -16,7 +14,28 @@ CREATE TABLE CitizenRegistration (
     Registration_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Trigger
+
+-- Populating CitizenRegistration Table
+INSERT INTO CitizenRegistration (Registration_ID, Full_Name, Address, Contact_Number, Email, Gender, Date_of_Birth, National_ID, Registration_Date) 
+VALUES
+('CIT001', 'Professor Dr. Kamruddin Nur ', 'House: 91; Road:04; Block:B, Banani Dhaka-1213', '01777354323', 'kamruddin.nur@gmail.com', 'Male', '1998-10-18', '1997054672345', DEFAULT),
+('CIT002', 'Hasnat Karibul Islam Alindo', 'House 526, Road 17, Block J, Bashundhara R/A', '01316619278', 'withalindo@gmail.com', 'Male', '2001-12-28', '1998034530678', DEFAULT), 
+('CIT003', 'Md. Minhaujul Islam', 'House 257, Road 5, Block C, Bashundhara R/A', '01756619289', 'minhajulislamrimon28@gmail.com', 'Male', '2001-04-16', '1990027530526', DEFAULT),
+('CIT004', 'Nur Ibne Kawsar Zitu', 'House 226, Road 5, Block C, Bashundhara R/A', '01712345670', 'nur.zitu@gmail.com', 'Male', '2000-11-15', '1990045530425', DEFAULT), 
+('CIT005', 'Sabbir Hossain', 'House 126, Road 15, Block A, Bashundhara R/A', '01798766832', 'sabbirsts420@gmail.com', 'Male', '2000-04-09', '1990025530223', DEFAULT),
+('CIT006', 'Sayed Mahi Ashrafi', 'House 26, Road 2, Block D, Nikunja R/A', '01798765432', 'syed.mahi@gmail.com', 'Male', '2001-09-17', '1990067530124', DEFAULT), 
+('CIT007', 'Ivy Khan', 'House 427, Road 8, Block D, Bashundhara R/A', '01745678901', 'ivy.khan@gmail.com', 'Female', '2001-08-06', '1990024498128', DEFAULT),
+('CIT008', 'Meher Easha', 'House 126, Road 8, Block C, Bashundhara R/A', '01711223344', 'emeherun@gmail.com', 'Female', '2001-08-15', '1990024530129', DEFAULT),
+('CIT009', 'Md. Tanvir Hossain', 'House 15, Road 10, Gulshan 1, Dhaka', '01712345678', 'tanvir.hossain@gmail.com', 'Male', '1999-10-26', '1990024530123', DEFAULT),
+('CIT010', 'Nasima Akhter', 'Flat 5C, Lakeview Apartments, Banani, Dhaka', '01812345679', 'nasima.akhter@yahoo.com', 'Female', '1999-05-18', '1990054525678', DEFAULT),
+('CIT011', 'Shahriar Kabir', 'House 24, Road 8, Dhanmondi, Dhaka', '01912345670', 'shahriar.kabir@gmail.com', 'Male', '1990-08-26', '1998014530987', DEFAULT),
+('CIT012', 'Ayesha Rahman', 'House 32, Sector 7, Uttara, Dhaka', '01798765432', 'ayesha.rahman@gmail.com', 'Female', '1996-01-26', '1995056783456', DEFAULT),
+('CIT013', 'Md. Abir Hasan', 'House 18, Road 5, Mohammadpur, Dhaka', '01876543210', 'abir.hasan@outlook.com', 'Male', '1987-10-06', '1996034526789', DEFAULT),
+('CIT014', 'Taslima Begum', 'Flat 4A, Green Plaza, Mirpur 12, Dhaka', '01745678901', 'taslima.begum@gmail.com', 'Female', '1975-10-26', '1993034786541', DEFAULT),
+('CIT015', 'Khaled Mahmud', 'House 22, Bashundhara R/A, Block F, Dhaka', '01899887766', 'khaled.mahmud@gmail.com', 'Male', '1985-12-16', '1998012567894', DEFAULT),
+('CIT016', 'Shivan Sharma', 'Flat No. 102, Block A, Greenwood Apartments, Sector 11, Dwarka, New Delhi- 110075 India', '01559887766', 'shivam.sharma@gmail.com', 'Male', '1985-12-16', '1988012567894', DEFAULT),
+('CIT017', 'Raiyan Ahmed', 'House 22, Banasree, Block C, Dhaka', '014589887766', 'raiyan.ahmed@gmail.com', 'Male', '2010-12-16', '1998012567895', DEFAULT);
+
 DELIMITER $$
 
 CREATE TRIGGER After_Approval_Update
@@ -42,40 +61,17 @@ BEGIN
 END$$
 
 DELIMITER ;
--- Approval Querry
 UPDATE CitizenRegistration
 SET Approval_Status = 'Approved'
 WHERE Registration_ID LIKE 'CIT%' AND National_ID LIKE '199%';
--- Rejection Querry
-UPDATE CitizenRegistration
-SET Approval_Status = 'Rejected'
-WHERE Registration_ID LIKE 'CIT%' AND National_ID NOT LIKE '199%';
 
-INSERT INTO CitizenRegistration (Registration_ID, Full_Name, Address, Contact_Number, Email, Gender, Date_of_Birth, National_ID, Registration_Date) 
-VALUES
-('CIT001', 'Professor Dr. Kamruddin Nur ', 'House: 91; Road:04; Block:B, Banani Dhaka-1213', '01777354323', 'kamruddin.nur@gmail.com', 'Male', '1998-10-18', '1997054672345', DEFAULT),
-('CIT002', 'Hasnat Karibul Islam Alindo', 'House 526, Road 17, Block J, Bashundhara R/A', '01316619278', 'withalindo@gmail.com', 'Male', '2001-12-28', '1998034530678', DEFAULT), 
-('CIT003', 'Md. Minhaujul Islam', 'House 257, Road 5, Block C, Bashundhara R/A', '01756619289', 'minhajulislamrimon28@gmail.com', 'Male', '2001-04-16', '1990027530526', DEFAULT),
-('CIT004', 'Nur Ibne Kawsar Zitu', 'House 226, Road 5, Block C, Bashundhara R/A', '01712345670', 'nur.zitu@gmail.com', 'Male', '2000-11-15', '1990045530425', DEFAULT), 
-('CIT005', 'Sabbir Hossain', 'House 126, Road 15, Block A, Bashundhara R/A', '01798766832', 'sabbirsts420@gmail.com', 'Male', '2000-04-09', '1990025530223', DEFAULT),
-('CIT006', 'Sayed Mahi Ashrafi', 'House 26, Road 2, Block D, Nikunja R/A', '01798765432', 'syed.mahi@gmail.com', 'Male', '2001-09-17', '1990067530124', DEFAULT), 
-('CIT007', 'Ivy Khan', 'House 427, Road 8, Block D, Bashundhara R/A', '01745678901', 'ivy.khan@gmail.com', 'Female', '2001-08-06', '1990024498128', DEFAULT),
-('CIT008', 'Meher Easha', 'House 126, Road 8, Block C, Bashundhara R/A', '01711223344', 'emeherun@gmail.com', 'Female', '2001-08-15', '1990024530129', DEFAULT),
-('CIT009', 'Md. Tanvir Hossain', 'House 15, Road 10, Gulshan 1, Dhaka', '01712345678', 'tanvir.hossain@gmail.com', 'Male', '1999-10-26', '1990024530123', DEFAULT),
-('CIT010', 'Nasima Akhter', 'Flat 5C, Lakeview Apartments, Banani, Dhaka', '01812345679', 'nasima.akhter@yahoo.com', 'Female', '1999-05-18', '1990054525678', DEFAULT),
-('CIT011', 'Shahriar Kabir', 'House 24, Road 8, Dhanmondi, Dhaka', '01912345670', 'shahriar.kabir@gmail.com', 'Male', '1990-08-26', '1998014530987', DEFAULT),
-('CIT012', 'Ayesha Rahman', 'House 32, Sector 7, Uttara, Dhaka', '01798765432', 'ayesha.rahman@gmail.com', 'Female', '1996-01-26', '1995056783456', DEFAULT),
-('CIT013', 'Md. Abir Hasan', 'House 18, Road 5, Mohammadpur, Dhaka', '01876543210', 'abir.hasan@outlook.com', 'Male', '1987-10-06', '1996034526789', DEFAULT),
-('CIT014', 'Taslima Begum', 'Flat 4A, Green Plaza, Mirpur 12, Dhaka', '01745678901', 'taslima.begum@gmail.com', 'Female', '1975-10-26', '1993034786541', DEFAULT),
-('CIT015', 'Khaled Mahmud', 'House 22, Bashundhara R/A, Block F, Dhaka', '01899887766', 'khaled.mahmud@gmail.com', 'Male', '1985-12-16', '1998012567894', DEFAULT),
-('CIT016', 'Shivan Sharma', 'Flat No. 102, Block A, Greenwood Apartments, Sector 11, Dwarka, New Delhi- 110075 India', '01559887766', 'shivam.sharma@gmail.com', 'Male', '1985-12-16', '1988012567894', DEFAULT),
-('CIT017', 'Raiyan Ahmed', 'House 22, Banasree, Block C, Dhaka', '014589887766', 'raiyan.ahmed@gmail.com', 'Male', '2010-12-16', '1998012567895', DEFAULT);
+
+
 
 -- Citizen Table
-
 CREATE TABLE Citizen_Info
 (
-    Citizen_ID 	VARCHAR(30) PRIMARY KEY,
+    Citizen_ID 	VARCHAR(500) PRIMARY KEY,
     Name VARCHAR(200) NOT NULL,
 	Address VARCHAR(300) NOT NULL,
     Contact_Number VARCHAR(15) NOT NULL,
@@ -88,8 +84,9 @@ CREATE TABLE Citizen_Info
 
 
 
--- City_Official Table
 
+
+-- Create City_Official table
 CREATE TABLE City_Official (
     Official_ID VARCHAR(50) PRIMARY KEY,
     Citizen_ID VARCHAR(50),
@@ -110,7 +107,7 @@ CREATE TABLE City_Official (
         ON UPDATE CASCADE
 );
 
--- Department table
+-- Create Department table
 CREATE TABLE Department (
     Department_ID VARCHAR(10) PRIMARY KEY,
     Department_Name VARCHAR(100) NOT NULL,
@@ -124,8 +121,7 @@ CREATE TABLE Department (
         ON UPDATE CASCADE
 );
 
--- Populating into City_Official
-
+-- Insert into City_Official
 INSERT INTO City_Official (Citizen_ID, Official_ID, Name, Department_ID, Role, Phone_Number, Email, Years_Of_Service, Qualifications, Address, Supervisor_ID)
 VALUES
 ('CIT001', 'CF1', 'Professor Dr. Kamruddin Nur', '1', 'City Mayor', '01777354323', 'kamruddin.nur@citygov.org', 15, 'PhD in Ubiquitous Computing', 'House: 91; Road:04; Block:B, Banani Dhaka-1213', NULL),
@@ -138,8 +134,7 @@ VALUES
 ('CIT006', 'EDU001', 'Sayed Mahi Ashrafi', '108', 'Department Head', '01711221122', 'mahi.ashrafi@citygov.org', 12, 'PhD in Education Management', 'House 26, Road 2, Block D, Nikunja R/A', 'CF1'),
 ('CIT008', 'EDU002', 'Meher Easha', '108', 'Officer', '01711223344', 'meher.easha@citygov.org', 6, 'Masters in Public Administration', 'House 126, Road 8, Block C, Bashundhara R/A', 'EDU001');
 
-
--- Populating Department table
+-- Insert into Department
 INSERT INTO Department (Department_ID, Department_Name, Head_Official_ID, Department_Budget, Number_Of_Employees, Main_Responsibilities, Operating_Hours)
 VALUES
 ('1', 'Department of Head of the city', 'CF1', 515000000, 900, 'Head of the City and Policy makers.', '24/7'),
@@ -154,14 +149,20 @@ VALUES
 ('109', 'Finance and Budget', 'FIN001', 20000000, 50, 'Manage city finances, budgets, and tax collection.', '9:00 AM - 5:00 PM'),
 ('110', 'Technology and Innovation', 'CF1', 65000000, 40, 'Develop and manage city tech infrastructure and smart city initiatives.', '9:00 AM - 6:00 PM');
 
+
+
+
+
 ALTER TABLE City_Official
 ADD CONSTRAINT FK_Department_ID
 FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)
 ON DELETE CASCADE
 ON UPDATE CASCADE;
+USE SCIMS;
 
 -- Public Services Table
 
+-- Create Public_Services Table
 CREATE TABLE Public_Services (
     Service_ID VARCHAR(30) PRIMARY KEY, -- Unique identifier for each public service
     Department_ID VARCHAR(10), -- Links to the Department table
@@ -175,8 +176,29 @@ CREATE TABLE Public_Services (
         ON UPDATE CASCADE
 );
 
+-- Create Feedback Table
+CREATE TABLE Feedback (
+    Feedback_ID VARCHAR(10) PRIMARY KEY, -- Unique identifier for feedback
+    Citizen_ID VARCHAR(50), -- Links to Citizen_Info table
+    Service_ID VARCHAR(30), -- Links to Public_Services table
+    Assigned_Official_ID VARCHAR(50), -- Links to City_Official table
+    Feedback_Date DATE NOT NULL, -- Date the feedback was given
+    Feedback_Type VARCHAR(50), -- Type of feedback (e.g., Complaint, Suggestion, Praise)
+    Description TEXT, -- Detailed description of the feedback
+    Rating DECIMAL(2, 1) CHECK (Rating BETWEEN 1 AND 5), -- Rating out of 5
+    Resolved_Status BOOLEAN DEFAULT FALSE, -- Whether the issue has been resolved
+    Resolution_Date DATE DEFAULT NULL, -- Date when the feedback was resolved
+    FOREIGN KEY (Citizen_ID) REFERENCES Citizen_Info(Citizen_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Service_ID) REFERENCES Public_Services(Service_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Assigned_Official_ID) REFERENCES City_Official(Official_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
--- Populating Public_Services Table
 
 INSERT INTO Public_Services (Service_ID, Department_ID, Service_Type, Service_Description, Availability_Status, Average_Response_Time, Service_Fee)
 VALUES
@@ -190,6 +212,8 @@ VALUES
 ('PS008', '108', 'Library Membership', 'Provide access to public libraries and online resources.', 'Available', 0.08, 500.00),
 ('PS009', '109', 'Tax Consultation', 'Assist citizens in calculating and paying city taxes.', 'Available', 0.08, 10000.00),
 ('PS010', '110', 'Wi-Fi Services', 'Offer free public Wi-Fi in selected urban zones.', 'Available', 0.17, 500.00);
+
+
 
 INSERT INTO Feedback (Feedback_ID, Citizen_ID, Service_ID, Assigned_Official_ID, Feedback_Date, Feedback_Type, Description, Rating, Resolved_Status, Resolution_Date)
 VALUES
@@ -206,6 +230,25 @@ VALUES
 
 
 
+
+-- Service_Request Table
+CREATE TABLE Service_Request (
+    Request_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for the request
+    Citizen_ID VARCHAR(50) NOT NULL, -- Links to Citizen_Info table
+    Service_ID VARCHAR(30), -- Links to Public_Services table
+    Request_Date DATE NOT NULL, -- Date the request was submitted
+    Request_Status VARCHAR(20) DEFAULT 'Pending' 
+        CHECK (Request_Status IN ('Pending', 'In Progress', 'Completed', 'Rejected')), -- Status of the request
+    Assigned_Official_ID VARCHAR(50), -- Links to City_Official table
+    Request_Description TEXT, -- Description of the service request
+    Completion_Date DATE, -- Date when the request was completed
+    FOREIGN KEY (Citizen_ID) REFERENCES Citizen_Info(Citizen_ID) 
+        ON DELETE CASCADE ON UPDATE CASCADE, -- Deletes requests if the citizen is deleted
+    FOREIGN KEY (Service_ID) REFERENCES Public_Services(Service_ID) 
+        ON DELETE CASCADE ON UPDATE CASCADE, -- Deletes requests if the service is deleted
+    FOREIGN KEY (Assigned_Official_ID) REFERENCES City_Official(Official_ID) 
+        ON DELETE SET NULL ON UPDATE CASCADE -- Sets Assigned_Official_ID to NULL if the official is deleted
+);
 
 INSERT INTO Service_Request (Request_ID, Citizen_ID, Service_ID, Request_Date, Request_Status, Assigned_Official_ID, Request_Description, Completion_Date)
 VALUES
@@ -232,8 +275,8 @@ CREATE TABLE Location (
     Additional_Info TEXT -- Any additional details about the location  
 );
 
--- Populating Location Table
-
+-- drop table Location;
+-- Inserting 10 Sample Data Rows for Locations in Dhaka
 INSERT INTO Location (Location_ID, Location_Name, Location_Type, City, Region, Postal_Code, Additional_Info)
 VALUES
 ('DHAKA1', 'Gulshan', 'Residential', 'Dhaka', 'Dhaka North', '1212', 'High-end residential area with embassies.'),
@@ -267,9 +310,6 @@ VALUES
 ('DHAKA29', 'Agargaon', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1207', 'Home to government offices and IT parks.'),
 ('DHAKA30', 'Ashulia', 'Industrial', 'Dhaka', 'Dhaka North', '1341', 'Key industrial hub for garments and manufacturing.');
 
-
--- Citizen_Location Table
-
 CREATE TABLE Citizen_Location (
     Citizen_ID VARCHAR(30),
     Location_ID VARCHAR(50),
@@ -277,9 +317,6 @@ CREATE TABLE Citizen_Location (
     FOREIGN KEY (Citizen_ID) REFERENCES Citizen_Info(Citizen_ID) ON DELETE CASCADE,
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID) ON DELETE CASCADE
 );
-
--- Populating Citizen_Location Table
-
 
 INSERT INTO Citizen_Location (Citizen_ID, Location_ID)
 VALUES
@@ -304,8 +341,6 @@ SELECT CL.Citizen_ID, CI.Name, CL.Location_ID, L.Location_Name, L.Location_ID
 FROM Citizen_Location CL JOIN Citizen_Info CI ON CL.Citizen_ID = CI.Citizen_ID JOIN Location L 
 ON CL.Location_ID = L.Location_ID;
 
--- Weather_Condition_Data Table
-
 CREATE TABLE Weather_Condition_Data (
     Weather_ID VARCHAR(50) PRIMARY KEY ,       -- Unique identifier for each weather record
     Location_ID VARCHAR(50) NOT NULL,                        -- Foreign key linking to the Location table
@@ -320,9 +355,8 @@ CREATE TABLE Weather_Condition_Data (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
--- Populating Weather_Condition_Data Table
-
-INSERT INTO Weather_Condition_Data (Weather_ID, Location_ID, Observation_Date, Temperature, Humidity, Weather_Condition, Wind_Speed, Additional_Info)
+INSERT INTO Weather_Condition_Data 
+(Weather_ID, Location_ID, Observation_Date, Temperature, Humidity, Weather_Condition, Wind_Speed, Additional_Info)
 VALUES
 ('W001', 'DHAKA1', '2024-12-01', 25.50, 60, 'Sunny', 15.20, 'Clear sky with mild breeze'),
 ('W002', 'DHAKA2', '2024-12-01', 22.30, 80, 'Rainy', 10.50, 'Light rain in the morning'),
@@ -345,16 +379,15 @@ VALUES
 ('W019', 'DHAKA19', '2024-12-02', 25.30, 70, 'Cloudy', 12.00, 'Cloudy skies with mild humidity'),
 ('W020', 'DHAKA20', '2024-12-02', 30.50, 50, 'Sunny', 20.30, 'Hot and sunny day with clear skies');
 
--- Infrustructure  Maintainance Table
 
 CREATE TABLE Infrastructure_Maintenance (
-    Maintenance_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for each maintenance record
-    Location_ID VARCHAR(50) NOT NULL, -- Foreign key referencing the Location table
-    Department_ID VARCHAR(50),
+    Maintenance_ID INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for each maintenance record
+    Location_ID INT NOT NULL, -- Foreign key referencing the Location table
+    Department_ID INT,
     Maintenance_Type VARCHAR(100) NOT NULL, -- Type of maintenance (e.g., Road Repair, Utility Maintenance)
     Start_Date DATE NOT NULL, -- Start date of the maintenance work
     End_Date DATE, -- End date of the maintenance work (can be NULL if ongoing)
-    Status VARCHAR(50) CHECK (Status IN ('Planned', 'Ongoing', 'Completed')) DEFAULT 'Planned', 
+    Status VARCHAR(50) CHECK (Status IN ('Planned', 'Ongoing', 'Completed')) DEFAULT 'Planned', -- Status of maintenance
     Cost DECIMAL(15,2), -- Cost of maintenance (optional)
     Contractor_Name VARCHAR(100), -- Name of the contractor or company handling the maintenance
     Additional_Info TEXT, -- Any additional details about the maintenance work
@@ -362,17 +395,18 @@ CREATE TABLE Infrastructure_Maintenance (
        FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Populating Infrustructure_Maintenance Table
-
-INSERT INTO Infrastructure_Maintenance (Maintenance_ID, Location_ID, Department_ID, Maintenance_Type, Start_Date, End_Date, Status, Cost, Contractor_Name, Additional_Info
-) VALUES
-('M001', 'DHAKA1', '103', 'Gulshan Link Road Repair', '2024-01-01', '2024-01-10', 'Completed', 15000.00, 'Abdul Momen Contractors', 'Repair of potholes on Main Street.'),
-('M002', 'DHAKA2', '109', 'Bank Building Maintainance', '2024-12-15', NULL, 'Ongoing', 20000.00, '24th Army Brigade ', 'Upgrading and maitainance of the diffected bank building.'),
-('M004', 'DHAKA11', '102', 'Bridge Inspection', '2024-03-01', '2024-03-05', 'Completed', 5000.00, 'BridgeCo Inspections', 'Annual safety inspection of the River Bridge.'),
-('M005', 'DHAKA9', '109', 'Hospital building repair', '2024-03-10', NULL, 'Planned', 3000.00, 'Abdul Momen Group', 'ICDDRB building repair.'),
-('M006', 'DHAKA9', NULL, 'Park Renovation', '2024-01-20', '2024-02-20', 'Completed', 25000.00, 'Green Earth Landscaping', 'Renovation of the central park with new pathways and landscaping.');
-
--- Bus_Trasportation Table
+INSERT INTO Infrastructure_Maintenance (Location_ID, Maintenance_Type,Department_ID, Start_Date, End_Date, Status, Cost, Contractor_Name, Additional_Info)
+VALUES
+    (1, 'Road Repair', 102 , '2024-01-10', '2024-01-20', 'Completed', 500000.00, 'ABC Construction Ltd.', 'Repaved damaged road sections.'),
+    (2, 'Utility Maintenance', 102 , '2024-02-01', NULL, 'Ongoing', 200000.00, 'Dhaka Power Grid Co.', 'Upgrading electrical grid systems.'),
+    (3, 'Bridge Inspection',102, '2024-03-15', '2024-03-17', 'Completed', 150000.00, 'BridgeTech Engineers', 'Routine inspection of structural integrity.'),
+    (4, 'Drainage System Cleanup',102, '2024-04-05', '2024-04-15', 'Completed', 100000.00, 'CityWorks Inc.', 'Cleared blockages in the drainage system.'),
+    (5, 'Park Renovation', 105 , '2024-05-01', '2024-06-01', 'Planned', 300000.00, 'GreenScape Services', 'Renovating public parks and adding new amenities.'),
+    (6, 'Building Demolition', 102,  '2024-06-10', NULL, 'Ongoing', 250000.00, 'SafeWreckers Co.', 'Demolishing old unsafe structures.'),
+    (7, 'Roadside Tree Planting', 104 , '2024-07-15', '2024-08-15', 'Planned', 50000.00, 'EcoTree Initiative', 'Planting trees along major roads.'),
+    (8, 'Sewer Line Repair', 104, '2024-08-20', '2024-09-10', 'Completed', 80000.00, 'PipeFix Ltd.', 'Fixed damaged sewer lines causing overflow.'),
+    (9, 'Streetlight Installation', 105 , '2024-09-25', NULL, 'Ongoing', 120000.00, 'LightCo Electricals', 'Installing new streetlights for improved visibility.'),
+    (10, 'Traffic Signal Upgrade', 110 , '2024-10-01', '2024-10-05', 'Completed', 60000.00, 'SignalTech Solutions', 'Upgraded outdated traffic lights.');
 
 CREATE TABLE Bus_Transportation  (
     Bus_ID VARCHAR(30) PRIMARY KEY ,
@@ -385,9 +419,6 @@ CREATE TABLE Bus_Transportation  (
     FOREIGN KEY (Start_Location_ID) REFERENCES Location(Location_ID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (End_Location_ID) REFERENCES Location(Location_ID)ON DELETE CASCADE ON UPDATE CASCADE
 );
-
--- Populating Bus_Trasportation Table
-
 INSERT INTO Bus_Transportation (Bus_ID, Route_Name, Start_Location_ID, End_Location_ID, Number_Of_Stations, Frequency_Per_Hour, status)
 VALUES
 ('Green Dhaka', 'Route A', 'DHAKA1', 'DHAKA0', 15, 6, 'On Time'),
@@ -401,7 +432,7 @@ VALUES
 ('Retro Paribahan', 'Route I', 'DHAKA9', 'DHAKA18', 9, 4, 'Cancelled'),
 ('Azam Paribahan', 'Route J', 'DHAKA0', 'DHAKA19', 16, 5, 'On Time');
 
--- IoT_Devices Table    
+    
     CREATE TABLE IoT_Devices (
     Device_ID VARCHAR(30) PRIMARY KEY ,
     Device_Type VARCHAR(100) NOT NULL,
@@ -416,7 +447,6 @@ VALUES
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID)
 );
 
--- Populating IoT_Devices Table
 INSERT INTO IoT_Devices (Device_ID, Device_Type, Department_ID, Location_ID, Installation_Date, Device_Status, Last_Communication_Timestamp, Manufacturer, Battery_Status)
 VALUES
     ('SENSOR001', 'Temperature Sensor', '104', 'DHAKA1', '2023-01-15', 'Active', '2024-12-07 14:20:00', 'SensTech', '85%'),
@@ -462,10 +492,9 @@ VALUES
     ('SENSOR041','Traffic Sensor', 103, 'DHAKA20', '2023-09-15', 'Active', '2024-11-01 18:45:00', 'SensorTech', '56%'),
     ('SENSOR042','Traffic Sensor', 103, 'DHAKA19', '2023-10-10', 'Active', '2024-11-01 05:30:00', 'SensorTech', '79%');
 
+
 select*
 FROM IoT_Devices;
-
--- Traffic_Data Table
 CREATE TABLE Traffic_Data (
     Traffic_ID VARCHAR(50) PRIMARY KEY,
     Location_ID VARCHAR(50) NOT NULL,
@@ -479,7 +508,8 @@ CREATE TABLE Traffic_Data (
     FOREIGN KEY (Device_ID) REFERENCES IoT_Devices(Device_ID)
 );
 
--- Populating Traffic_Data Table
+
+
 INSERT INTO Traffic_Data (Traffic_ID, Location_ID, Device_ID, Vehicle_Count, Average_Speed, Accident_Reports, Congestion_Level, Timestamp)
 VALUES
     ('T001', 'DHAKA1', 'SENSOR021', 120, 45.50, 1, 'Moderate', '2024-12-07 15:00:00'),
@@ -505,7 +535,6 @@ VALUES
 
 -- select*
 -- from traffic_data;
--- Utility_Monitoring Table
 
 CREATE TABLE Utility_Monitoring (
     Utility_ID VARCHAR(50) PRIMARY KEY,
@@ -521,7 +550,18 @@ CREATE TABLE Utility_Monitoring (
     FOREIGN KEY (Device_ID) REFERENCES IoT_Devices(Device_ID)
 );
 
--- Populating Utility_Monitoring Table
+INSERT INTO IoT_Devices (Device_Type, Department_ID, Location_ID, Installation_Date, Device_Status, Last_Communication_Timestamp, Manufacturer, Battery_Status)
+VALUES
+('Sensor', 110, 1, '2023-01-01', 'Active', '2024-11-01 08:00:00', 'DeviceCorp', 'Good'),
+('Meter', 110, 2, '2023-02-15', 'Active', '2024-11-01 08:15:00', 'EnergyCo', 'Good'),
+('Sensor', 110, 3, '2023-03-10', 'Active', '2024-11-01 08:30:00', 'GasTech', 'Good'),
+('Meter', 110, 4, '2023-04-20', 'Active', '2024-11-01 08:45:00', 'CityPower', 'Good'),
+('Sensor', 110, 5, '2023-05-25', 'Active', '2024-11-01 09:00:00', 'WaterCorp', 'Good'),
+('Meter', 110, 6, '2023-06-10', 'Active', '2024-11-01 09:15:00', 'GasTech', 'Good'),
+('Sensor', 110, 7, '2023-07-18', 'Active', '2024-11-01 09:30:00', 'DeviceCorp', 'Good'),
+('Meter', 110, 8, '2023-08-12', 'Active', '2024-11-01 09:45:00', 'EnergyCo', 'Good'),
+('Sensor', 110, 9, '2023-09-05', 'Active', '2024-11-01 10:00:00', 'GasTech', 'Good'),
+('Meter', 110, 1, '2023-10-01', 'Active', '2024-11-01 10:15:00', 'CityPower', 'Good');
 
 INSERT INTO Utility_Monitoring (Utility_ID, Location_ID, Utility_Type, Consumption, Provider, Timestamp, Cost_Per_Unit, Peak_Consumption_Period, Device_ID)
 VALUES
@@ -538,6 +578,4 @@ VALUES
 
 
 select * 
-
 from utility_monitoring;
-
