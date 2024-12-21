@@ -134,16 +134,16 @@ CREATE TABLE Public_Services (
 );
 
 CREATE TABLE Feedback (
-    Feedback_ID VARCHAR(10) PRIMARY KEY, -- Unique identifier for feedback
-    Citizen_ID VARCHAR(50), -- Links to Citizen_Info table
-    Service_ID VARCHAR(30), -- Links to Public_Services table
-    Assigned_Official_ID VARCHAR(50), -- Links to City_Official table
-    Feedback_Date DATE NOT NULL, -- Date the feedback was given
-    Feedback_Type VARCHAR(50), -- Type of feedback (e.g., Complaint, Suggestion, Praise)
-    Description TEXT, -- Detailed description of the feedback
-    Rating DECIMAL(2, 1) CHECK (Rating BETWEEN 1 AND 5), -- Rating out of 5
-    Resolved_Status BOOLEAN DEFAULT FALSE, -- Whether the issue has been resolved
-    Resolution_Date DATE DEFAULT NULL, -- Date when the feedback was resolved
+    Feedback_ID VARCHAR(10) PRIMARY KEY, 
+    Citizen_ID VARCHAR(50), 
+    Service_ID VARCHAR(30), 
+    Assigned_Official_ID VARCHAR(50), 
+    Feedback_Date DATE NOT NULL, 
+    Feedback_Type VARCHAR(50), 
+    Description TEXT, 
+    Rating DECIMAL(2, 1) CHECK (Rating BETWEEN 1 AND 5), 
+    Resolved_Status BOOLEAN DEFAULT FALSE, 
+    Resolution_Date DATE DEFAULT NULL, 
     FOREIGN KEY (Citizen_ID) REFERENCES Citizen_Info(Citizen_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
@@ -157,34 +157,34 @@ CREATE TABLE Feedback (
 
 -- Service_Request Table
 CREATE TABLE Service_Request (
-    Request_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for the request
-    Citizen_ID VARCHAR(50) NOT NULL, -- Links to Citizen_Info table
-    Service_ID VARCHAR(30), -- Links to Public_Services table
-    Request_Date DATE NOT NULL, -- Date the request was submitted
+    Request_ID VARCHAR(50) PRIMARY KEY, 
+    Citizen_ID VARCHAR(50) NOT NULL, 
+    Service_ID VARCHAR(30), 
+    Request_Date DATE NOT NULL, 
     Request_Status VARCHAR(20) DEFAULT 'Pending' 
-        CHECK (Request_Status IN ('Pending', 'In Progress', 'Completed', 'Rejected')), -- Status of the request
-    Assigned_Official_ID VARCHAR(50), -- Links to City_Official table
-    Request_Description TEXT, -- Description of the service request
-    Completion_Date DATE, -- Date when the request was completed
+        CHECK (Request_Status IN ('Pending', 'In Progress', 'Completed', 'Rejected')), 
+    Assigned_Official_ID VARCHAR(50), 
+    Request_Description TEXT, 
+    Completion_Date DATE, 
     FOREIGN KEY (Citizen_ID) REFERENCES Citizen_Info(Citizen_ID) 
-        ON DELETE CASCADE ON UPDATE CASCADE, -- Deletes requests if the citizen is deleted
+        ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (Service_ID) REFERENCES Public_Services(Service_ID) 
-        ON DELETE CASCADE ON UPDATE CASCADE, -- Deletes requests if the service is deleted
+        ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (Assigned_Official_ID) REFERENCES City_Official(Official_ID) 
-        ON DELETE SET NULL ON UPDATE CASCADE -- Sets Assigned_Official_ID to NULL if the official is deleted
+        ON DELETE SET NULL ON UPDATE CASCADE 
 );
 
 
 
 -- Location Table
 CREATE TABLE Location (
-    Location_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for the location
-    Location_Name VARCHAR(100) NOT NULL, -- Name of the location
-    Location_Type VARCHAR(50) CHECK (Location_Type IN ('Residential', 'Commercial', 'Industrial', 'Mixed-Use','Heritage')), -- Type of area
+    Location_ID VARCHAR(50) PRIMARY KEY, 
+    Location_Name VARCHAR(100) NOT NULL, 
+    Location_Type VARCHAR(50) CHECK (Location_Type IN ('Residential', 'Commercial', 'Industrial', 'Mixed-Use','Heritage')), 
     City VARCHAR(50) NOT NULL, -- City name
     Region VARCHAR(50) NOT NULL, -- Region or division
     Postal_Code VARCHAR(10), -- Postal or ZIP code
-    Additional_Info TEXT -- Any additional details about the location  
+    Additional_Info TEXT
 );
 
 
@@ -201,15 +201,15 @@ CREATE TABLE Citizen_Location (
 -- Weather_Condition_Data Table
 
 CREATE TABLE Weather_Condition_Data (
-    Weather_ID VARCHAR(50) PRIMARY KEY ,       -- Unique identifier for each weather record
-    Location_ID VARCHAR(50) NOT NULL,                        -- Foreign key linking to the Location table
-    Observation_Date DATE NOT NULL,                  -- Date of the weather observation
-    Temperature DECIMAL(5, 2) NOT NULL,              -- Temperature in Celsius (or desired unit)
-    Humidity INT CHECK (Humidity BETWEEN 0 AND 100), -- Humidity percentage (0-100)
+    Weather_ID VARCHAR(50) PRIMARY KEY ,       
+    Location_ID VARCHAR(50) NOT NULL,                        
+    Observation_Date DATE NOT NULL,                  
+    Temperature DECIMAL(5, 2) NOT NULL,              
+    Humidity INT CHECK (Humidity BETWEEN 0 AND 100), 
     Weather_Condition VARCHAR(50) CHECK (
-	Weather_Condition IN ('Sunny', 'Rainy', 'Cloudy', 'Stormy', 'Windy', 'Foggy')),      -- General weather description
-    Wind_Speed DECIMAL(5, 2),                        -- Wind speed in km/h (or desired unit)
-    Additional_Info TEXT,                            -- Additional details about the weather
+	Weather_Condition IN ('Sunny', 'Rainy', 'Cloudy', 'Stormy', 'Windy', 'Foggy')),      
+    Wind_Speed DECIMAL(5, 2),                        
+    Additional_Info TEXT,                            
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -310,12 +310,12 @@ select d.department_name AS "Department Name", d.Department_ID AS "Department Id
 from Department d; 
 
 -- 2 Top performinng departments in IoT usage:
-SELECT d.Department_Name, COUNT(iot.Device_ID) AS Active_Devices
+SELECT d.Department_Name AS "Department Name", COUNT(iot.Device_ID) AS "Number of Active Devices"
 FROM IoT_Devices iot
 JOIN Department d ON iot.Department_ID = d.Department_ID
 WHERE iot.Device_Status = 'Active'
 GROUP BY d.Department_ID
-ORDER BY Active_Devices DESC;
+ORDER BY COUNT(iot.Device_ID) DESC;
 
 -- 3 Location with active IoT Devices
 SELECT DISTINCT Location_Name AS Location_Name
@@ -361,6 +361,7 @@ WHERE CR.Approval_Status = 'Approved';
 UPDATE CitizenRegistration
 SET Approval_Status = 'Approved'
 WHERE Registration_ID LIKE 'CIT%' AND National_ID LIKE '199%';
+
 
 -- 11Citizenship application  Rejection Querry
 UPDATE CitizenRegistration
@@ -433,7 +434,7 @@ LEFT JOIN Citizen_Location CL
 ON L.Location_ID = CL.Location_ID
 GROUP BY L.Location_Name;
 
--- 22 List of citizens with their location and ity
+-- 22 List of citizens with their location and City
 SELECT CI.Name, L.Location_Name, L.City 
 FROM Citizen_Info CI 
 JOIN Citizen_Location CL 
@@ -482,21 +483,17 @@ JOIN City_Official CO
 ON SR.Assigned_Official_ID = CO.Official_ID
 WHERE SR.Request_Status = 'Pending'
 GROUP BY CO.Name
-ORDER BY Pending_Requests DESC;
+ORDER BY COUNT(SR.Request_ID) DESC;
 
 -- 29 Fing locations with highest number of request
-SELECT 
-    L.Location_Name, 
-    SR.Request_Status AS Request_Type, 
-    COUNT(SR.Request_ID) AS Total_Requests, 
-    GROUP_CONCAT(SR.Request_Description SEPARATOR '; ') AS Request_Details
+SELECT L.Location_Name AS "Location_Name", SR.Request_Status AS "Request Type", COUNT(SR.Request_ID) AS "Total Requests", GROUP_CONCAT(SR.Request_Description SEPARATOR '; ') AS "Request Details"
 FROM Service_Request SR
 JOIN Citizen_Location CL 
-    ON SR.Citizen_ID = CL.Citizen_ID
+ON SR.Citizen_ID = CL.Citizen_ID
 JOIN Location L 
-    ON CL.Location_ID = L.Location_ID
+ON CL.Location_ID = L.Location_ID
 GROUP BY L.Location_Name, SR.Request_Status
-ORDER BY Total_Requests DESC;
+ORDER BY COUNT(SR.Request_ID)  DESC;
 
 -- 30 Retrieveing Unresolved Feedback
 SELECT Feedback_ID, Description 
@@ -557,20 +554,34 @@ FROM Weather_Condition_Data
 GROUP BY MONTH(Observation_Date)
 ORDER BY Month;
 
--- 39
-SELECT L.Location_Name AS "Location Name", AVG(TD.Vehicle_Count) AS "Average Vehicle Count",AVG(TD.Congestion_Level) AS "Average Congestion Level",MAX(TD.Accident_Reports) AS "Accidents Reported"
-FROM Traffic_Data TD
-JOIN Location L 
-    ON TD.Location_ID = L.Location_ID
-GROUP BY L.Location_Name
-ORDER BY AVG(TD.Congestion_Level) DESC, AVG(TD.Vehicle_Count)  DESC;
-
-
--- 40.City Official details who don't have any supervisors
+-- 39.City Official details who don't have any supervisors
 SELECT CO.Official_ID AS "Official ID", CO.Name AS "Name", CO.Role AS "Role", CO.Department_ID AS "Deparment ID", D.Department_Name AS "Department Name", CO.Phone_Number AS "Contact Number" , CO.Email, CO.Years_Of_Service AS "Service years",
     CO.Qualifications,CO.Address
 FROM City_Official CO
 LEFT JOIN Department D 
     ON CO.Department_ID = D.Department_ID
 WHERE CO.Supervisor_ID IS NULL;
+
+-- 40 Finding the Most Frequent Routes, Average Number of Stations, and Status Distribution
+SELECT BT.Route_Name AS Route, COUNT(BT.Bus_ID) AS "Total Buses", AVG(BT.Number_Of_Stations) AS "Average Stations",
+    SUM(CASE WHEN BT.Status = 'On Time' THEN 1 ELSE 0 END) AS "On Time Count",
+    SUM(CASE WHEN BT.Status = 'Delayed' THEN 1 ELSE 0 END) AS "Delayed Count",
+    SUM(CASE WHEN BT.Status = 'Cancelled' THEN 1 ELSE 0 END) AS "Cancelled Count",
+    CONCAT(SL.Location_Name, ' to ', EL.Location_Name) AS "Route Description"
+FROM Bus_Transportation BT
+LEFT JOIN Location SL ON BT.Start_Location_ID = SL.Location_ID
+LEFT JOIN Location EL ON BT.End_Location_ID = EL.Location_ID
+GROUP BY BT.Route_Name, SL.Location_Name, EL.Location_Name
+ORDER BY COUNT(BT.Bus_ID) DESC, AVG(BT.Number_Of_Stations) DESC;
+
+-- 41 Bus schedule and frequency analyzing
+SELECT Route_Name AS "Route", Frequency_Per_Hour AS " Frequency Per Hour", 
+    CASE 
+        WHEN Frequency_Per_Hour >= 4 THEN 'High Frequency'
+        WHEN Frequency_Per_Hour BETWEEN 2 AND 3 THEN 'Moderate Frequency'
+        ELSE 'Low Frequency'
+        END AS Service_Level
+FROM Bus_Transportation
+ORDER BY Frequency_Per_Hour DESC;
+
 

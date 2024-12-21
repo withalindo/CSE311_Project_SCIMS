@@ -1,12 +1,12 @@
 Department_ID,Department_Name,Head_Official_ID,Department_Budget,Number_Of_Employees,Main_Responsibilities,Operating_Hours
-1,"Department of Head of the city",CF1,515000000.00,900,"Head of the City and Policy makers.",24/7
-101,"Public Safety",DEF001,50000000.00,120,"Manage law enforcement, fire services, and public safety operations.",24/7
-102,Infrastructure,CF1,80000000.00,150,"Oversee construction, maintenance of roads, bridges, and public buildings.","9:00 AM - 5:00 PM"
-103,Transportation,CF1,60000000.00,100,"Manage public transport systems, metro services, and traffic flow.","6:00 AM - 11:00 PM"
-104,"Environment and Sanitation",CF1,30000000.00,80,"Ensure waste management, clean water supply, and environmental health.","8:00 AM - 6:00 PM"
-105,"Urban Planning",CF1,45000000.00,60,"Plan and regulate land use, zoning, and urban development projects.","9:00 AM - 5:00 PM"
-106,"Emergency Services",CF1,70000000.00,90,"Respond to emergencies, manage disaster recovery, and medical aid.",24/7
-107,"Health and Welfare",HLT001,55000000.00,110,"Provide health services, welfare programs, and public healthcare.","9:00 AM - 5:00 PM"
-108,"Education and Community Services",EDU001,40000000.00,75,"Oversee public schools, libraries, and community programs.","8:00 AM - 6:00 PM"
-109,"Finance and Budget",FIN001,20000000.00,50,"Manage city finances, budgets, and tax collection.","9:00 AM - 5:00 PM"
-110,"Technology and Innovation",CF1,65000000.00,40,"Develop and manage city tech infrastructure and smart city initiatives.","9:00 AM - 6:00 PM"
+1,Department of Head of the city,CF1,515000000,900,Head of the City and Policy makers.,24-Jul
+101,Public Safety,DEF001,50000000,120,"Manage law enforcement, fire services, and public safety operations.",24-Jul
+102,Infrastructure,CF1,80000000,150,"Oversee construction, maintenance of roads, bridges, and public buildings.",9:00 AM - 5:00 PM
+103,Transportation,CF1,60000000,100,"Manage public transport systems, metro services, and traffic flow.",6:00 AM - 11:00 PM
+104,Environment and Sanitation,CF1,30000000,80,"Ensure waste management, clean water supply, and environmental health.",8:00 AM - 6:00 PM
+105,Urban Planning,CF1,45000000,60,"Plan and regulate land use, zoning, and urban development projects.",9:00 AM - 5:00 PM
+106,Emergency Services,CF1,70000000,90,"Respond to emergencies, manage disaster recovery, and medical aid.",24-Jul
+107,Health and Welfare,HLT001,55000000,110,"Provide health services, welfare programs, and public healthcare.",9:00 AM - 5:00 PM
+108,Education and Community Services,EDU001,40000000,75,"Oversee public schools, libraries, and community programs.",8:00 AM - 6:00 PM
+109,Finance and Budget,FIN001,20000000,50,"Manage city finances, budgets, and tax collection.",9:00 AM - 5:00 PM
+110,Technology and Innovation,CF1,65000000,40,Develop and manage city tech infrastructure and smart city initiatives.,9:00 AM - 6:00 PM
