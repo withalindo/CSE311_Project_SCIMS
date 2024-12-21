@@ -1,8 +1,9 @@
-CREATE DATABASE SCIMS_test_2;
-USE SCIMS_test_2;
+CREATE DATABASE SCIMS;
+USE SCIMS;
+
 -- Citizen Registration Table
 CREATE TABLE CitizenRegistration (
-     Registration_ID VARCHAR(500) PRIMARY KEY,
+	Registration_ID VARCHAR(500) PRIMARY KEY,
     Full_Name VARCHAR(200) NOT NULL,
     Gender VARCHAR(10) CHECK (Gender IN ('Male', 'Female', 'Others')),
     Date_Of_Birth DATE NOT NULL,
@@ -13,29 +14,10 @@ CREATE TABLE CitizenRegistration (
 	Approval_Status VARCHAR(20) CHECK (Approval_Status IN ('Pending', 'Approved', 'Rejected')) DEFAULT 'Pending',
     Registration_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- SELECT * 
+-- FROM CitizenRegistration;
 
-
--- Populating CitizenRegistration Table
-INSERT INTO CitizenRegistration (Registration_ID, Full_Name, Address, Contact_Number, Email, Gender, Date_of_Birth, National_ID, Registration_Date) 
-VALUES
-('CIT001', 'Professor Dr. Kamruddin Nur ', 'House: 91; Road:04; Block:B, Banani Dhaka-1213', '01777354323', 'kamruddin.nur@gmail.com', 'Male', '1998-10-18', '1997054672345', DEFAULT),
-('CIT002', 'Hasnat Karibul Islam Alindo', 'House 526, Road 17, Block J, Bashundhara R/A', '01316619278', 'withalindo@gmail.com', 'Male', '2001-12-28', '1998034530678', DEFAULT), 
-('CIT003', 'Md. Minhaujul Islam', 'House 257, Road 5, Block C, Bashundhara R/A', '01756619289', 'minhajulislamrimon28@gmail.com', 'Male', '2001-04-16', '1990027530526', DEFAULT),
-('CIT004', 'Nur Ibne Kawsar Zitu', 'House 226, Road 5, Block C, Bashundhara R/A', '01712345670', 'nur.zitu@gmail.com', 'Male', '2000-11-15', '1990045530425', DEFAULT), 
-('CIT005', 'Sabbir Hossain', 'House 126, Road 15, Block A, Bashundhara R/A', '01798766832', 'sabbirsts420@gmail.com', 'Male', '2000-04-09', '1990025530223', DEFAULT),
-('CIT006', 'Sayed Mahi Ashrafi', 'House 26, Road 2, Block D, Nikunja R/A', '01798765432', 'syed.mahi@gmail.com', 'Male', '2001-09-17', '1990067530124', DEFAULT), 
-('CIT007', 'Ivy Khan', 'House 427, Road 8, Block D, Bashundhara R/A', '01745678901', 'ivy.khan@gmail.com', 'Female', '2001-08-06', '1990024498128', DEFAULT),
-('CIT008', 'Meher Easha', 'House 126, Road 8, Block C, Bashundhara R/A', '01711223344', 'emeherun@gmail.com', 'Female', '2001-08-15', '1990024530129', DEFAULT),
-('CIT009', 'Md. Tanvir Hossain', 'House 15, Road 10, Gulshan 1, Dhaka', '01712345678', 'tanvir.hossain@gmail.com', 'Male', '1999-10-26', '1990024530123', DEFAULT),
-('CIT010', 'Nasima Akhter', 'Flat 5C, Lakeview Apartments, Banani, Dhaka', '01812345679', 'nasima.akhter@yahoo.com', 'Female', '1999-05-18', '1990054525678', DEFAULT),
-('CIT011', 'Shahriar Kabir', 'House 24, Road 8, Dhanmondi, Dhaka', '01912345670', 'shahriar.kabir@gmail.com', 'Male', '1990-08-26', '1998014530987', DEFAULT),
-('CIT012', 'Ayesha Rahman', 'House 32, Sector 7, Uttara, Dhaka', '01798765432', 'ayesha.rahman@gmail.com', 'Female', '1996-01-26', '1995056783456', DEFAULT),
-('CIT013', 'Md. Abir Hasan', 'House 18, Road 5, Mohammadpur, Dhaka', '01876543210', 'abir.hasan@outlook.com', 'Male', '1987-10-06', '1996034526789', DEFAULT),
-('CIT014', 'Taslima Begum', 'Flat 4A, Green Plaza, Mirpur 12, Dhaka', '01745678901', 'taslima.begum@gmail.com', 'Female', '1975-10-26', '1993034786541', DEFAULT),
-('CIT015', 'Khaled Mahmud', 'House 22, Bashundhara R/A, Block F, Dhaka', '01899887766', 'khaled.mahmud@gmail.com', 'Male', '1985-12-16', '1998012567894', DEFAULT),
-('CIT016', 'Shivan Sharma', 'Flat No. 102, Block A, Greenwood Apartments, Sector 11, Dwarka, New Delhi- 110075 India', '01559887766', 'shivam.sharma@gmail.com', 'Male', '1985-12-16', '1988012567894', DEFAULT),
-('CIT017', 'Raiyan Ahmed', 'House 22, Banasree, Block C, Dhaka', '014589887766', 'raiyan.ahmed@gmail.com', 'Male', '2010-12-16', '1998012567895', DEFAULT);
-
+-- Trigger
 DELIMITER $$
 
 CREATE TRIGGER After_Approval_Update
@@ -61,17 +43,25 @@ BEGIN
 END$$
 
 DELIMITER ;
+-- Approval Querry
 UPDATE CitizenRegistration
 SET Approval_Status = 'Approved'
 WHERE Registration_ID LIKE 'CIT%' AND National_ID LIKE '199%';
-
-
+-- Rejection Querry
+UPDATE CitizenRegistration
+SET Approval_Status = 'Rejected'
+WHERE Registration_ID LIKE 'CIT%' AND National_ID NOT LIKE '199%';
+-- UnderAge Applicant Querry
+UPDATE CitizenRegistration
+SET Approval_Status = 'Pending'
+WHERE TIMESTAMPDIFF(YEAR, Date_Of_Birth, CURDATE()) < 18;
 
 
 -- Citizen Table
+
 CREATE TABLE Citizen_Info
 (
-    Citizen_ID 	VARCHAR(500) PRIMARY KEY,
+    Citizen_ID 	VARCHAR(30) PRIMARY KEY,
     Name VARCHAR(200) NOT NULL,
 	Address VARCHAR(300) NOT NULL,
     Contact_Number VARCHAR(15) NOT NULL,
@@ -84,9 +74,8 @@ CREATE TABLE Citizen_Info
 
 
 
+-- City_Official Table
 
-
--- Create City_Official table
 CREATE TABLE City_Official (
     Official_ID VARCHAR(50) PRIMARY KEY,
     Citizen_ID VARCHAR(50),
@@ -107,7 +96,7 @@ CREATE TABLE City_Official (
         ON UPDATE CASCADE
 );
 
--- Create Department table
+-- Department table
 CREATE TABLE Department (
     Department_ID VARCHAR(10) PRIMARY KEY,
     Department_Name VARCHAR(100) NOT NULL,
@@ -121,36 +110,6 @@ CREATE TABLE Department (
         ON UPDATE CASCADE
 );
 
--- Insert into City_Official
-INSERT INTO City_Official (Citizen_ID, Official_ID, Name, Department_ID, Role, Phone_Number, Email, Years_Of_Service, Qualifications, Address, Supervisor_ID)
-VALUES
-('CIT001', 'CF1', 'Professor Dr. Kamruddin Nur', '1', 'City Mayor', '01777354323', 'kamruddin.nur@citygov.org', 15, 'PhD in Ubiquitous Computing', 'House: 91; Road:04; Block:B, Banani Dhaka-1213', NULL),
-('CIT007', 'FIN001', 'Ivy Khan', '109', 'Department Head', '01316619278', 'ivy.khan@citygov.org', 10, 'PhD in Management AND HR', 'House 427, Road 8, Block D, Bashundhara R/A', 'CF1'),
-('CIT012', 'FIN002', 'Ayesha Rahman', '109', 'Senior Officer', '01712345678', 'ayesha.rahman@citygov.org', 5, 'Masters in Urban Planning', 'House 32, Sector 7, Uttara, Dhaka', 'FIN001'),
-('CIT002', 'DEF001', 'Hasnat Karibul Islam', '101', 'Department Head', '011316619278', 'hasnat.islam@citygov.org', 13, 'PhD in Molecular Engineering', 'House 526, Road 17, Block J, Bashundhara R/A', 'CF1'),
-('CIT004', 'DEF002', 'Nur Ibne Kawsar Zitun', '101', 'Officer', '01876543210', 'nur.zitu@citygov.org', 3, 'MSc in Software Engineering', 'House 226, Road 5, Block C, Bashundhara R/A', 'DEF001'),
-('CIT003', 'HLT001', 'Md. Minhajul Islam', '107', 'Department Head', '01756619289', 'minhajul.islam@citygov.org', 12, 'PhD in Pharmaceutical Science', 'House 257, Road 5, Block C, Bashundhara R/A', 'CF1'),
-('CIT015', 'HLT002', 'Khaled Mahmud', '107', 'Senior Officer', '01899887766', 'khaled.mahmud@citygov.org', 12, 'Bachelor’s in Environmental Engineering', 'House 22, Bashundhara R/A, Block F, Dhaka', 'HLT001'),
-('CIT006', 'EDU001', 'Sayed Mahi Ashrafi', '108', 'Department Head', '01711221122', 'mahi.ashrafi@citygov.org', 12, 'PhD in Education Management', 'House 26, Road 2, Block D, Nikunja R/A', 'CF1'),
-('CIT008', 'EDU002', 'Meher Easha', '108', 'Officer', '01711223344', 'meher.easha@citygov.org', 6, 'Masters in Public Administration', 'House 126, Road 8, Block C, Bashundhara R/A', 'EDU001');
-
--- Insert into Department
-INSERT INTO Department (Department_ID, Department_Name, Head_Official_ID, Department_Budget, Number_Of_Employees, Main_Responsibilities, Operating_Hours)
-VALUES
-('1', 'Department of Head of the city', 'CF1', 515000000, 900, 'Head of the City and Policy makers.', '24/7'),
-('101', 'Public Safety', 'DEF001', 50000000, 120, 'Manage law enforcement, fire services, and public safety operations.', '24/7'),
-('102', 'Infrastructure', 'CF1', 80000000, 150, 'Oversee construction, maintenance of roads, bridges, and public buildings.', '9:00 AM - 5:00 PM'),
-('103', 'Transportation', 'CF1', 60000000, 100, 'Manage public transport systems, metro services, and traffic flow.', '6:00 AM - 11:00 PM'),
-('104', 'Environment and Sanitation', 'CF1', 30000000, 80, 'Ensure waste management, clean water supply, and environmental health.', '8:00 AM - 6:00 PM'),
-('105', 'Urban Planning', 'CF1', 45000000, 60, 'Plan and regulate land use, zoning, and urban development projects.', '9:00 AM - 5:00 PM'),
-('106', 'Emergency Services', 'CF1', 70000000, 90, 'Respond to emergencies, manage disaster recovery, and medical aid.', '24/7'),
-('107', 'Health and Welfare', 'HLT001', 55000000, 110, 'Provide health services, welfare programs, and public healthcare.', '9:00 AM - 5:00 PM'),
-('108', 'Education and Community Services', 'EDU001', 40000000, 75, 'Oversee public schools, libraries, and community programs.', '8:00 AM - 6:00 PM'),
-('109', 'Finance and Budget', 'FIN001', 20000000, 50, 'Manage city finances, budgets, and tax collection.', '9:00 AM - 5:00 PM'),
-('110', 'Technology and Innovation', 'CF1', 65000000, 40, 'Develop and manage city tech infrastructure and smart city initiatives.', '9:00 AM - 6:00 PM');
-
-
-
 
 
 ALTER TABLE City_Official
@@ -158,11 +117,9 @@ ADD CONSTRAINT FK_Department_ID
 FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)
 ON DELETE CASCADE
 ON UPDATE CASCADE;
-USE SCIMS;
 
 -- Public Services Table
 
--- Create Public_Services Table
 CREATE TABLE Public_Services (
     Service_ID VARCHAR(30) PRIMARY KEY, -- Unique identifier for each public service
     Department_ID VARCHAR(10), -- Links to the Department table
@@ -176,7 +133,6 @@ CREATE TABLE Public_Services (
         ON UPDATE CASCADE
 );
 
--- Create Feedback Table
 CREATE TABLE Feedback (
     Feedback_ID VARCHAR(10) PRIMARY KEY, -- Unique identifier for feedback
     Citizen_ID VARCHAR(50), -- Links to Citizen_Info table
@@ -199,38 +155,6 @@ CREATE TABLE Feedback (
         ON UPDATE CASCADE
 );
 
-
-INSERT INTO Public_Services (Service_ID, Department_ID, Service_Type, Service_Description, Availability_Status, Average_Response_Time, Service_Fee)
-VALUES
-('PS001', '101', 'Emergency Rescue', 'Provide immediate rescue operations during natural disasters and accidents.', 'Available', 0.33, 0.00),
-('PS002', '102', 'Bridge Inspection', 'Conduct routine inspections and maintenance of city bridges.', 'Available', 72.00, 0.00),
-('PS003', '103', 'Traffic Management', 'Monitor and regulate traffic flow across the city.', 'Available', 0.25, 0.00),
-('PS004', '104', 'Water Quality Monitoring', 'Test and ensure safe drinking water supply to households.', 'Unavailable', NULL, 200.00),
-('PS005', '105', 'Urban Redevelopment', 'Plan and execute redevelopment projects in underutilized areas.', 'Available', 96.00, 10000.00),
-('PS006', '106', 'Disaster Recovery', 'Coordinate recovery efforts after major disasters.', 'Available', 2.00, 0.00),
-('PS007', '107', 'Vaccination Programs', 'Administer free vaccines for common diseases.', 'Available', 0.50, 0.00),
-('PS008', '108', 'Library Membership', 'Provide access to public libraries and online resources.', 'Available', 0.08, 500.00),
-('PS009', '109', 'Tax Consultation', 'Assist citizens in calculating and paying city taxes.', 'Available', 0.08, 10000.00),
-('PS010', '110', 'Wi-Fi Services', 'Offer free public Wi-Fi in selected urban zones.', 'Available', 0.17, 500.00);
-
-
-
-INSERT INTO Feedback (Feedback_ID, Citizen_ID, Service_ID, Assigned_Official_ID, Feedback_Date, Feedback_Type, Description, Rating, Resolved_Status, Resolution_Date)
-VALUES
-('FB001', 'CIT001', 'PS001', 'DEF002', '2024-12-01', 'Complaint', 'The service was delayed.', 2.0, 0, NULL),
-('FB002', 'CIT002', 'PS002', 'CF1', '2024-12-02', 'Praise', 'The officer was very helpful and efficient.', 5.0, 1, '2024-12-02'),
-('FB003', 'CIT003', 'PS003', 'CF1', '2024-12-03', 'Suggestion', 'Consider extending service hours to weekends.', 4.0, 0, NULL),
-('FB004', 'CIT004', 'PS004', 'CF1', '2024-12-04', 'Complaint', 'Difficulties in reaching support during emergencies.', 3.0, 0, NULL),
-('FB005', 'CIT005', 'PS005', 'CF1', '2024-12-05', 'Praise', 'Prompt response and excellent resolution.', 5.0, 1, '2024-12-05'),
-('FB006', 'CIT006', 'PS006', 'CF1', '2024-12-06', 'Complaint', 'Response time could be improved.', 3.5, 0, NULL),
-('FB007', 'CIT007', 'PS007', 'HLT002', '2024-12-07', 'Praise', 'Vaccination service was very organized.', 5.0, 1, '2024-12-07'),
-('FB008', 'CIT008', 'PS008', 'EDU002', '2024-12-08', 'Suggestion', 'Consider reducing the membership fee.', 4.5, 0, NULL),
-('FB009', 'CIT009', 'PS009', 'FIN002', '2024-12-09', 'Complaint', 'Tax consultation fee is too high.', 2.0, 0, NULL),
-('FB010', 'CIT010', 'PS010', 'CF1', '2024-12-10', 'Praise', 'Wi-Fi service is fast and reliable.', 5.0, 1, '2024-12-10');
-
-
-
-
 -- Service_Request Table
 CREATE TABLE Service_Request (
     Request_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for the request
@@ -250,18 +174,6 @@ CREATE TABLE Service_Request (
         ON DELETE SET NULL ON UPDATE CASCADE -- Sets Assigned_Official_ID to NULL if the official is deleted
 );
 
-INSERT INTO Service_Request (Request_ID, Citizen_ID, Service_ID, Request_Date, Request_Status, Assigned_Official_ID, Request_Description, Completion_Date)
-VALUES
-('REQ001', 'CIT005', 'PS001', '2024-12-01', 'Pending', 'CF1', 'Need immediate rescue operations after flood damage.', NULL),
-('REQ002', 'CIT015', 'PS002', '2024-12-02', 'In Progress', 'DEF002', 'Routine inspection for bridge maintenance.', NULL),
-('REQ003', 'CIT014', 'PS003', '2024-12-03', 'Completed', 'CF1', 'Traffic signal repair in downtown area.', '2024-12-05'),
-('REQ004', 'CIT012', 'PS004', '2024-12-04', 'Rejected', 'CF1', 'Water quality testing for municipal supply.', NULL),
-('REQ005', 'CIT005', 'PS005', '2024-12-05', 'Pending', 'CF1', 'Urban redevelopment planning for old city blocks.', NULL),
-('REQ006', 'CIT006', 'PS006', '2024-12-06', 'In Progress', 'CF1', 'Assistance required for disaster recovery.', NULL),
-('REQ007', 'CIT007', 'PS007', '2024-12-07', 'Completed', 'HLT002', 'Vaccination program support for school children.', '2024-12-08'),
-('REQ008', 'CIT008', 'PS008', '2024-12-08', 'Pending', 'EDU002', 'Library membership application.', NULL),
-('REQ009', 'CIT009', 'PS009', '2024-12-09', 'Rejected', 'FIN002', 'Tax consultation regarding new property.', NULL),
-('REQ010', 'CIT010', 'PS010', '2024-12-10', 'Completed', 'CF1', 'Wi-Fi service setup in urban zone.', '2024-12-12');
 
 
 -- Location Table
@@ -275,40 +187,8 @@ CREATE TABLE Location (
     Additional_Info TEXT -- Any additional details about the location  
 );
 
--- drop table Location;
--- Inserting 10 Sample Data Rows for Locations in Dhaka
-INSERT INTO Location (Location_ID, Location_Name, Location_Type, City, Region, Postal_Code, Additional_Info)
-VALUES
-('DHAKA1', 'Gulshan', 'Residential', 'Dhaka', 'Dhaka North', '1212', 'High-end residential area with embassies.'),
-('DHAKA2', 'Banani', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1213', 'Popular for both residential and commercial spaces.'),
-('DHAKA3', 'Dhanmondi', 'Residential', 'Dhaka', 'Dhaka South', '1209', 'Known for educational institutions and lakes.'),
-('DHAKA4', 'Motijheel', 'Commercial', 'Dhaka', 'Dhaka South', '1000', 'Central business district of Dhaka.'),
-('DHAKA5', 'Old Dhaka', 'Heritage', 'Dhaka', 'Dhaka South', '1100', 'Historic area with narrow streets and Mughal-era buildings.'),
-('DHAKA6', 'Uttara', 'Residential', 'Dhaka', 'Dhaka North', '1230', 'A planned residential area near the airport.'),
-('DHAKA7', 'Mirpur', 'Residential', 'Dhaka', 'Dhaka North', '1216', 'Famous for the National Zoo and Sher-e-Bangla Stadium.'),
-('DHAKA8', 'Baridhara', 'Residential', 'Dhaka', 'Dhaka North', '1212', 'Diplomatic area housing embassies and high-end residences.'),
-('DHAKA9', 'Mohakhali', 'Commercial', 'Dhaka', 'Dhaka North', '1212', 'Hub for hospitals and pharmaceutical companies.'),
-('DHAKA0', 'Paltan', 'Commercial', 'Dhaka', 'Dhaka South', '1000', 'Known for political rallies and trade centers.'),
-('DHAKA11', 'Bashundhara Residential Area', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1229', 'Developed area with residential and commercial zones.'),
-('DHAKA12', 'Tejgaon', 'Industrial', 'Dhaka', 'Dhaka North', '1215', 'Prominent industrial area with TV stations.'),
-('DHAKA13', 'Farmgate', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1215', 'Busy commercial hub with schools and offices.'),
-('DHAKA14', 'Shyamoli', 'Residential', 'Dhaka', 'Dhaka North', '1207', 'Area with parks and affordable housing.'),
-('DHAKA15', 'Keraniganj', 'Industrial', 'Dhaka', 'Dhaka South', '1310', 'Known for the garment industry and factories.'),
-('DHAKA16', 'Jatrabari', 'Commercial', 'Dhaka', 'Dhaka South', '1204', 'Busy area known for transportation hubs.'),
-('DHAKA17', 'Khilgaon', 'Mixed-Use', 'Dhaka', 'Dhaka South', '1219', 'Residential area with growing commercial zones.'),
-('DHAKA18', 'Rampura', 'Residential', 'Dhaka', 'Dhaka South', '1219', 'Area with television studios and middle-class housing.'),
-('DHAKA19', 'Savar', 'Industrial', 'Dhaka', 'Dhaka North', '1340', 'Home to EPZ and garment industries.'),
-('DHAKA20', 'Aminbazar', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1348', 'Growing urban area near Savar.'),
-('DHAKA21', 'Kamalapur', 'Commercial', 'Dhaka', 'Dhaka South', '1223', 'Location of the central railway station of Dhaka.'),
-('DHAKA22', 'Green Road', 'Residential', 'Dhaka', 'Dhaka South', '1205', 'Popular area for middle-class residences and medical facilities.'),
-('DHAKA23', 'Malibagh', 'Mixed-Use', 'Dhaka', 'Dhaka South', '1217', 'Busy area with shopping malls and apartments.'),
-('DHAKA24', 'Lalbagh', 'Heritage', 'Dhaka', 'Dhaka South', '1211', 'Famous for Lalbagh Fort, a Mughal-era monument.'),
-('DHAKA25', 'Hatirjheel', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1212', 'Urban development project with recreational spaces.'),
-('DHAKA26', 'Khilkhet', 'Residential', 'Dhaka', 'Dhaka North', '1229', 'A growing suburban area near Bashundhara.'),
-('DHAKA27', 'Turag', 'Residential', 'Dhaka', 'Dhaka North', '1711', 'Located near the river, with increasing residential projects.'),
-('DHAKA28', 'Banasree', 'Residential', 'Dhaka', 'Dhaka South', '1219', 'Planned housing area ideal for families.'),
-('DHAKA29', 'Agargaon', 'Mixed-Use', 'Dhaka', 'Dhaka North', '1207', 'Home to government offices and IT parks.'),
-('DHAKA30', 'Ashulia', 'Industrial', 'Dhaka', 'Dhaka North', '1341', 'Key industrial hub for garments and manufacturing.');
+
+-- Citizen_Location Table
 
 CREATE TABLE Citizen_Location (
     Citizen_ID VARCHAR(30),
@@ -318,28 +198,7 @@ CREATE TABLE Citizen_Location (
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID) ON DELETE CASCADE
 );
 
-INSERT INTO Citizen_Location (Citizen_ID, Location_ID)
-VALUES
-    ('CIT001', 'DHAKA2'), 
-    ('CIT002', 'DHAKA11'), 
-    ('CIT003', 'DHAKA11'), 
-    ('CIT004', 'DHAKA11'),
-    ('CIT005', 'DHAKA11'), 
-    ('CIT006', 'DHAKA26'), 
-    ('CIT007', 'DHAKA11'), 
-    ('CIT008', 'DHAKA11'), 
-    ('CIT009', 'DHAKA1'), 
-    ('CIT010', 'DHAKA12'), 
-	('CIT011', 'DHAKA3'),
-    ('CIT012','DHAKA6'), 
-    ('CIT013', 'DHAKA14'), 
-    ('CIT014', 'DHAKA7'),
-    ('CIT015', 'DHAKA11'); 
-
--- Testing and debugging Purpose
-SELECT CL.Citizen_ID, CI.Name, CL.Location_ID, L.Location_Name, L.Location_ID
-FROM Citizen_Location CL JOIN Citizen_Info CI ON CL.Citizen_ID = CI.Citizen_ID JOIN Location L 
-ON CL.Location_ID = L.Location_ID;
+-- Weather_Condition_Data Table
 
 CREATE TABLE Weather_Condition_Data (
     Weather_ID VARCHAR(50) PRIMARY KEY ,       -- Unique identifier for each weather record
@@ -355,58 +214,29 @@ CREATE TABLE Weather_Condition_Data (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
-INSERT INTO Weather_Condition_Data 
-(Weather_ID, Location_ID, Observation_Date, Temperature, Humidity, Weather_Condition, Wind_Speed, Additional_Info)
-VALUES
-('W001', 'DHAKA1', '2024-12-01', 25.50, 60, 'Sunny', 15.20, 'Clear sky with mild breeze'),
-('W002', 'DHAKA2', '2024-12-01', 22.30, 80, 'Rainy', 10.50, 'Light rain in the morning'),
-('W003', 'DHAKA3', '2024-12-01', 30.10, 50, 'Cloudy', 12.40, 'Overcast skies throughout the day'),
-('W004', 'DHAKA4', '2024-12-01', 18.70, 85, 'Stormy', 45.00, 'Heavy rain and strong winds'),
-('W005', 'DHAKA5', '2024-12-01', 15.50, 90, 'Foggy', 5.00, 'Low visibility in the early morning'),
-('W006', 'DHAKA6', '2024-12-01', 28.80, 70, 'Windy', 25.80, 'Strong gusts in the afternoon'),
-('W007', 'DHAKA7', '2024-12-01', 12.30, 95, 'Foggy', 8.20, 'Light rainfall overnight'),
-('W008', 'DHAKA8', '2024-12-01', 29.90, 55, 'Sunny', 18.50, 'Warm day with a clear sky'),
-('W009', 'DHAKA9', '2024-12-01', 21.40, 75, 'Rainy', 9.30, 'Drizzle during the evening'),
-('W010', 'DHAKA0', '2024-12-01', 26.00, 65, 'Cloudy', 11.00, 'Partly cloudy with no precipitation'),
-('W011', 'DHAKA11', '2024-12-02', 24.80, 68, 'Sunny', 14.20, 'Moderate temperatures with clear skies'),
-('W012', 'DHAKA12', '2024-12-02', 20.50, 85, 'Rainy', 8.70, 'Rain showers expected in the afternoon'),
-('W013', 'DHAKA13', '2024-12-02', 31.00, 45, 'Cloudy', 13.50, 'Hot day with occasional clouds'),
-('W014', 'DHAKA14', '2024-12-02', 17.00, 90, 'Foggy', 6.00, 'Dense fog in the early hours'),
-('W015', 'DHAKA15', '2024-12-02', 27.50, 60, 'Windy', 22.40, 'Breezy conditions throughout the day'),
-('W016', 'DHAKA16', '2024-12-02', 16.50, 95, 'Cloudy', 10.00, 'Rainfall with high humidity'),
-('W017', 'DHAKA17', '2024-12-02', 29.20, 58, 'Sunny', 16.80, 'Clear day with moderate wind'),
-('W018', 'DHAKA18', '2024-12-02', 22.70, 80, 'Rainy', 7.60, 'Intermittent rain with cool temperatures'),
-('W019', 'DHAKA19', '2024-12-02', 25.30, 70, 'Cloudy', 12.00, 'Cloudy skies with mild humidity'),
-('W020', 'DHAKA20', '2024-12-02', 30.50, 50, 'Sunny', 20.30, 'Hot and sunny day with clear skies');
 
+
+-- Infrustructure  Maintainance Table
 
 CREATE TABLE Infrastructure_Maintenance (
-    Maintenance_ID INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for each maintenance record
-    Location_ID INT NOT NULL, -- Foreign key referencing the Location table
-    Department_ID INT,
+    Maintenance_ID VARCHAR(50) PRIMARY KEY, -- Unique identifier for each maintenance record
+    Location_ID VARCHAR(50) NOT NULL, -- Foreign key referencing the Location table
+    Department_ID VARCHAR(50),
     Maintenance_Type VARCHAR(100) NOT NULL, -- Type of maintenance (e.g., Road Repair, Utility Maintenance)
     Start_Date DATE NOT NULL, -- Start date of the maintenance work
     End_Date DATE, -- End date of the maintenance work (can be NULL if ongoing)
-    Status VARCHAR(50) CHECK (Status IN ('Planned', 'Ongoing', 'Completed')) DEFAULT 'Planned', -- Status of maintenance
+    Status VARCHAR(50) CHECK (Status IN ('Planned', 'Ongoing', 'Completed')) DEFAULT 'Planned', 
     Cost DECIMAL(15,2), -- Cost of maintenance (optional)
     Contractor_Name VARCHAR(100), -- Name of the contractor or company handling the maintenance
     Additional_Info TEXT, -- Any additional details about the maintenance work
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID) ON DELETE CASCADE ON UPDATE CASCADE,
-       FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
-INSERT INTO Infrastructure_Maintenance (Location_ID, Maintenance_Type,Department_ID, Start_Date, End_Date, Status, Cost, Contractor_Name, Additional_Info)
-VALUES
-    (1, 'Road Repair', 102 , '2024-01-10', '2024-01-20', 'Completed', 500000.00, 'ABC Construction Ltd.', 'Repaved damaged road sections.'),
-    (2, 'Utility Maintenance', 102 , '2024-02-01', NULL, 'Ongoing', 200000.00, 'Dhaka Power Grid Co.', 'Upgrading electrical grid systems.'),
-    (3, 'Bridge Inspection',102, '2024-03-15', '2024-03-17', 'Completed', 150000.00, 'BridgeTech Engineers', 'Routine inspection of structural integrity.'),
-    (4, 'Drainage System Cleanup',102, '2024-04-05', '2024-04-15', 'Completed', 100000.00, 'CityWorks Inc.', 'Cleared blockages in the drainage system.'),
-    (5, 'Park Renovation', 105 , '2024-05-01', '2024-06-01', 'Planned', 300000.00, 'GreenScape Services', 'Renovating public parks and adding new amenities.'),
-    (6, 'Building Demolition', 102,  '2024-06-10', NULL, 'Ongoing', 250000.00, 'SafeWreckers Co.', 'Demolishing old unsafe structures.'),
-    (7, 'Roadside Tree Planting', 104 , '2024-07-15', '2024-08-15', 'Planned', 50000.00, 'EcoTree Initiative', 'Planting trees along major roads.'),
-    (8, 'Sewer Line Repair', 104, '2024-08-20', '2024-09-10', 'Completed', 80000.00, 'PipeFix Ltd.', 'Fixed damaged sewer lines causing overflow.'),
-    (9, 'Streetlight Installation', 105 , '2024-09-25', NULL, 'Ongoing', 120000.00, 'LightCo Electricals', 'Installing new streetlights for improved visibility.'),
-    (10, 'Traffic Signal Upgrade', 110 , '2024-10-01', '2024-10-05', 'Completed', 60000.00, 'SignalTech Solutions', 'Upgraded outdated traffic lights.');
+
+-- Bus_Trasportation Table
 
 CREATE TABLE Bus_Transportation  (
     Bus_ID VARCHAR(30) PRIMARY KEY ,
@@ -419,20 +249,10 @@ CREATE TABLE Bus_Transportation  (
     FOREIGN KEY (Start_Location_ID) REFERENCES Location(Location_ID) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (End_Location_ID) REFERENCES Location(Location_ID)ON DELETE CASCADE ON UPDATE CASCADE
 );
-INSERT INTO Bus_Transportation (Bus_ID, Route_Name, Start_Location_ID, End_Location_ID, Number_Of_Stations, Frequency_Per_Hour, status)
-VALUES
-('Green Dhaka', 'Route A', 'DHAKA1', 'DHAKA0', 15, 6, 'On Time'),
-('Torongo Paribahan', 'Route B', 'DHAKA2', 'DHAKA11', 12, 5, 'Delayed'),
-('Sikhor Paribhan', 'Route C', 'DHAKA3', 'DHAKA12', 10, 4, 'On Time'),
-('Ashin Paribahan', 'Route D', 'DHAKA4', 'DHAKA13', 18, 7, 'Cancelled'),
-('Dhakar Chaka', 'Route E', 'DHAKA5', 'DHAKA14', 20, 8, 'On Time'),
-('Victor Classic', 'Route F', 'DHAKA6', 'DHAKA15', 8, 3, 'Delayed'),
-('Projapoti Paribahan', 'Route G', 'DHAKA7', 'DHAKA16', 25, 10, 'On Time'),
-('Anabil Paribahan', 'Route H', 'DHAKA8', 'DHAKA17', 14, 6, 'On Time'),
-('Retro Paribahan', 'Route I', 'DHAKA9', 'DHAKA18', 9, 4, 'Cancelled'),
-('Azam Paribahan', 'Route J', 'DHAKA0', 'DHAKA19', 16, 5, 'On Time');
 
-    
+
+
+-- IoT_Devices Table    
     CREATE TABLE IoT_Devices (
     Device_ID VARCHAR(30) PRIMARY KEY ,
     Device_Type VARCHAR(100) NOT NULL,
@@ -446,55 +266,10 @@ VALUES
     FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID),
     FOREIGN KEY (Location_ID) REFERENCES Location(Location_ID)
 );
-
-INSERT INTO IoT_Devices (Device_ID, Device_Type, Department_ID, Location_ID, Installation_Date, Device_Status, Last_Communication_Timestamp, Manufacturer, Battery_Status)
-VALUES
-    ('SENSOR001', 'Temperature Sensor', '104', 'DHAKA1', '2023-01-15', 'Active', '2024-12-07 14:20:00', 'SensTech', '85%'),
-    ('SENSOR002', 'Humidity Sensor', '104', 'DHAKA2', '2023-02-20', 'Active', '2024-12-07 14:25:00', 'WeatherPro', '78%'),
-    ('SENSOR003', 'Air Quality Monitor', '104', 'DHAKA3', '2023-03-10', 'Inactive', '2024-12-07 13:50:00', 'EnviroCheck', 'Battery Low'),
-    ('SENSOR004', 'Water Level Sensor', '104', 'DHAKA4', '2023-04-05', 'Active', '2024-12-07 14:30:00', 'AquaSense', '92%'),
-    ('SENSOR005', 'Motion Detector', '110', 'DHAKA5', '2023-05-12','Active', '2024-12-07 14:15:00', 'SecureIt', '80%'),
-    ('SENSOR006', 'Pressure Sensor', '110', 'DHAKA6', '2023-06-08','Active', '2024-12-07 14:10:00', 'PressurTech', '75%'),
-    ('SENSOR007', 'Proximity Sensor', '110', 'DHAKA7', '2023-07-14', 'Inactive', '2024-12-06 18:45:00', 'ProxiMatic', '60%'),
-    ('SENSOR008', 'Light Intensity Sensor', '110', 'DHAKA8', '2023-08-01', 'Active', '2024-12-07 14:00:00', 'BrightSense', '90%'),
-    ('SENSOR009', 'Sound Level Sensor', '110', 'DHAKA9', '2023-09-19', 'Active', '2024-12-07 13:55:00', 'AcoustiCare', '82%'),
-    ('SENSOR010', 'Gas Leak Detector', '101', 'DHAKA0', '2023-10-25', 'Active', '2024-12-07 14:05:00', 'SafeGasTech', '88%'),
-    ('SENSOR011', 'Infrared Sensor', '104', 'DHAKA11', '2023-11-11', 'Active', '2024-12-07 14:40:00', 'IRMax', '95%'),
-    ('SENSOR012', 'UV Index Sensor', '110', 'DHAKA12', '2023-12-02', 'Inactive', '2024-12-06 15:20:00', 'UltraSafe', 'Battery Low'),
-    ('SENSOR013', 'Vibration Sensor', '110', 'DHAKA13', '2023-01-28', 'Active', '2024-12-07 14:50:00', 'VibraTech', '70%'),
-    ('SENSOR014', 'Smoke Detector', '104', 'DHAKA14', '2023-02-16', 'Inactive', '2024-12-06 17:30:00', 'FireSecure', 'Low Battery'),
-    ('SENSOR015', 'Flood Sensor', '104', 'DHAKA15', '2023-03-05', 'Active', '2024-12-07 14:35:00', 'FloodGuard', '85%'),
-    ('SENSOR016', 'GPS Tracker', '110', 'DHAKA16', '2023-04-20', 'Active', '2024-12-07 14:45:00', 'GeoLocator', '77%'),
-    ('SENSOR017', 'Barcode Scanner', '110', 'DHAKA17', '2023-05-30', 'Active', '2024-12-07 13:50:00', 'ScanTech', '90%'),
-    ('SENSOR018', 'RFID Sensor', '110', 'DHAKA18', '2023-06-25', 'Active', '2024-12-07 14:55:00', 'IDSecure', 'Battery Full'),
-    ('SENSOR019', 'Magnetometer', '110', 'DHAKA19', '2023-07-10', 'Active', '2024-12-07 13:45:00', 'MagSense', '85%'),
-    ('SENSOR020', 'Energy Meter', '110', 'DHAKA20', '2023-08-15', 'Active', '2024-12-07 14:10:00', 'EnerTech', '88%'),
-    ('SENSOR021','Traffic Sensor', 103, 'DHAKA1', '2023-01-15', 'Active', '2024-11-01 08:00:00', 'SensorTech', '80%'),
-    ('SENSOR022','Traffic Sensor', 103, 'DHAKA2', '2023-02-10', 'Active', '2024-11-01 09:00:00', 'SensorTech', '65%'),
-    ('SENSOR023','Traffic Sensor', 103, 'DHAKA3', '2023-03-05', 'Active', '2024-11-01 07:45:00', 'SensorTech', '62%'),
-    ('SENSOR024','Traffic Sensor', 103, 'DHAKA4', '2023-04-20', 'Active', '2024-11-01 10:15:00', 'SensorTech', '68%'),
-    ('SENSOR025','Traffic Sensor', 103, 'DHAKA5', '2023-05-10', 'Active', '2024-11-01 11:00:00', 'SensorTech', '54%'),
-    ('SENSOR026','Traffic Sensor', 103, 'DHAKA6', '2023-06-15', 'Active', '2024-11-01 06:30:00', 'SensorTech', '59%'),
-    ('SENSOR027','Traffic Sensor', 103, 'DHAKA7', '2023-07-25', 'Active', '2024-11-01 17:00:00', 'SensorTech', '5%'),
-    ('SENSOR028','Traffic Sensor', 103, 'DHAKA8', '2023-08-30', 'Active', '2024-11-01 12:30:00', 'SensorTech', '45%'),
-    ('SENSOR029','Traffic Sensor', 103, 'DHAKA8', '2023-09-15', 'Active', '2024-11-01 18:45:00', 'SensorTech', '95%'),
-    ('SENSOR030','Traffic Sensor', 103, 'DHAKA9', '2023-10-10', 'Active', '2024-11-01 05:30:00', 'SensorTech', '100%'),
-    ('SENSOR031','Traffic Sensor', 103, 'DHAKA0', '2023-01-15', 'Active', '2024-11-01 08:00:00', 'SensorTech', '75%'),
-    ('SENSOR032','Traffic Sensor', 103, 'DHAKA11', '2023-02-10', 'Active', '2024-11-01 09:00:00', 'SensorTech', '49%'),
-    ('SENSOR033','Traffic Sensor', 103, 'DHAKA12', '2023-03-05', 'Active', '2024-11-01 07:45:00', 'SensorTech', '69%'),
-    ('SENSOR034','Traffic Sensor', 103, 'DHAKA13', '2023-04-20', 'Active', '2024-11-01 10:15:00', 'SensorTech', '90%'),
-    ('SENSOR035','Traffic Sensor', 103, 'DHAKA14', '2023-05-10', 'Active', '2024-11-01 11:00:00', 'SensorTech', '58%'),
-    ('SENSOR036','Traffic Sensor', 103, 'DHAKA15', '2023-06-15', 'Active', '2024-11-01 06:30:00', 'SensorTech', '64%'),
-    ('SENSOR037','Traffic Sensor', 103, 'DHAKA16', '2023-07-25', 'Active', '2024-11-01 17:00:00', 'SensorTech', '45%'),
-    ('SENSOR038','Traffic Sensor', 103, 'DHAKA17', '2023-08-30', 'Active', '2024-11-01 12:30:00', 'SensorTech', '55%'),
-    ('SENSOR039','Traffic Sensor', 103, 'DHAKA18', '2023-09-15', 'Active', '2024-11-01 18:45:00', 'SensorTech', '25%'),
-    ('SENSOR040','Traffic Sensor', 103, 'DHAKA19', '2023-10-10', 'Active', '2024-11-01 05:30:00', 'SensorTech', '49%'),
-    ('SENSOR041','Traffic Sensor', 103, 'DHAKA20', '2023-09-15', 'Active', '2024-11-01 18:45:00', 'SensorTech', '56%'),
-    ('SENSOR042','Traffic Sensor', 103, 'DHAKA19', '2023-10-10', 'Active', '2024-11-01 05:30:00', 'SensorTech', '79%');
-
-
 select*
 FROM IoT_Devices;
+
+-- Traffic_Data Table
 CREATE TABLE Traffic_Data (
     Traffic_ID VARCHAR(50) PRIMARY KEY,
     Location_ID VARCHAR(50) NOT NULL,
@@ -510,32 +285,10 @@ CREATE TABLE Traffic_Data (
 
 
 
-INSERT INTO Traffic_Data (Traffic_ID, Location_ID, Device_ID, Vehicle_Count, Average_Speed, Accident_Reports, Congestion_Level, Timestamp)
-VALUES
-    ('T001', 'DHAKA1', 'SENSOR021', 120, 45.50, 1, 'Moderate', '2024-12-07 15:00:00'),
-    ('T002', 'DHAKA2', 'SENSOR022', 200, 40.30, 0, 'High', '2024-12-07 15:05:00'),
-    ('T003', 'DHAKA3', 'SENSOR023', 50, 55.20, 0, 'Low', '2024-12-07 15:10:00'),
-    ('T004', 'DHAKA4', 'SENSOR024', 80, 35.10, 2, 'High', '2024-12-07 15:15:00'),
-    ('T005', 'DHAKA5', 'SENSOR025', 150, 42.80, 0, 'Moderate', '2024-12-07 15:20:00'),
-    ('T006', 'DHAKA6', 'SENSOR026', 90, 48.60, 1, 'Moderate', '2024-12-07 15:25:00'),
-    ('T007', 'DHAKA7', 'SENSOR027', 110, 50.40, 0, 'Moderate', '2024-12-07 15:30:00'),
-    ('T008', 'DHAKA8', 'SENSOR028', 180, 38.70, 1, 'High', '2024-12-07 15:35:00'),
-    ('T009', 'DHAKA9', 'SENSOR029', 70, 60.10, 0, 'Low', '2024-12-07 15:40:00'),
-    ('T010', 'DHAKA0', 'SENSOR030', 130, 43.90, 3, 'High', '2024-12-07 15:45:00'),
-    ('T011', 'DHAKA11', 'SENSOR031', 100, 47.30, 0, 'Moderate', '2024-12-07 15:50:00'),
-    ('T012', 'DHAKA12', 'SENSOR032', 60, 53.40, 1, 'Low', '2024-12-07 15:55:00'),
-    ('T013', 'DHAKA13', 'SENSOR033', 140, 41.80, 2, 'High', '2024-12-07 16:00:00'),
-    ('T014', 'DHAKA14', 'SENSOR034', 220, 35.60, 3, 'High', '2024-12-07 16:05:00'),
-    ('T015', 'DHAKA15', 'SENSOR035', 90, 50.90, 0, 'Moderate', '2024-12-07 16:10:00'),
-    ('T016', 'DHAKA16', 'SENSOR036', 180, 42.30, 0, 'Moderate', '2024-12-07 16:15:00'),
-    ('T017', 'DHAKA17', 'SENSOR037', 120, 48.70, 1, 'Moderate', '2024-12-07 16:20:00'),
-    ('T018', 'DHAKA18', 'SENSOR038', 110, 49.10, 0, 'Moderate', '2024-12-07 16:25:00'),
-    ('T019', 'DHAKA19', 'SENSOR039', 160, 40.20, 2, 'High', '2024-12-07 16:30:00'),
-    ('T020', 'DHAKA20', 'SENSOR040', 130, 44.60, 0, 'Moderate', '2024-12-07 16:35:00');
-
 -- select*
 -- from traffic_data;
 
+-- Utility_Monitoring Table
 CREATE TABLE Utility_Monitoring (
     Utility_ID VARCHAR(50) PRIMARY KEY,
     Location_ID VARCHAR(30) NOT NULL,
@@ -550,32 +303,274 @@ CREATE TABLE Utility_Monitoring (
     FOREIGN KEY (Device_ID) REFERENCES IoT_Devices(Device_ID)
 );
 
-INSERT INTO IoT_Devices (Device_Type, Department_ID, Location_ID, Installation_Date, Device_Status, Last_Communication_Timestamp, Manufacturer, Battery_Status)
-VALUES
-('Sensor', 110, 1, '2023-01-01', 'Active', '2024-11-01 08:00:00', 'DeviceCorp', 'Good'),
-('Meter', 110, 2, '2023-02-15', 'Active', '2024-11-01 08:15:00', 'EnergyCo', 'Good'),
-('Sensor', 110, 3, '2023-03-10', 'Active', '2024-11-01 08:30:00', 'GasTech', 'Good'),
-('Meter', 110, 4, '2023-04-20', 'Active', '2024-11-01 08:45:00', 'CityPower', 'Good'),
-('Sensor', 110, 5, '2023-05-25', 'Active', '2024-11-01 09:00:00', 'WaterCorp', 'Good'),
-('Meter', 110, 6, '2023-06-10', 'Active', '2024-11-01 09:15:00', 'GasTech', 'Good'),
-('Sensor', 110, 7, '2023-07-18', 'Active', '2024-11-01 09:30:00', 'DeviceCorp', 'Good'),
-('Meter', 110, 8, '2023-08-12', 'Active', '2024-11-01 09:45:00', 'EnergyCo', 'Good'),
-('Sensor', 110, 9, '2023-09-05', 'Active', '2024-11-01 10:00:00', 'GasTech', 'Good'),
-('Meter', 110, 1, '2023-10-01', 'Active', '2024-11-01 10:15:00', 'CityPower', 'Good');
+-- Queries
 
-INSERT INTO Utility_Monitoring (Utility_ID, Location_ID, Utility_Type, Consumption, Provider, Timestamp, Cost_Per_Unit, Peak_Consumption_Period, Device_ID)
-VALUES
-    ('U001', 'DHAKA1', 'Electricity', 1200.50, 'PowerGrid Ltd.', '2024-12-07 16:00:00', 5.20, '08:00-10:00', 'SENSOR001'),
-    ('U002', 'DHAKA2', 'Water', 800.00, 'WaterSupply Co.', '2024-12-07 16:05:00', 2.10, '06:00-08:00', 'SENSOR002'),
-    ('U003', 'DHAKA3', 'Gas', 350.75, 'GasDistribution Inc.', '2024-12-07 16:10:00', 3.50, '18:00-20:00', 'SENSOR003'),
-    ('U004', 'DHAKA4', 'Electricity', 950.25, 'PowerGrid Ltd.', '2024-12-07 16:15:00', 5.20, '09:00-11:00', 'SENSOR004'),
-    ('U005', 'DHAKA5', 'Water', 1050.60, 'WaterSupply Co.', '2024-12-07 16:20:00', 2.10, '07:00-09:00', 'SENSOR005'),
-    ('U006', 'DHAKA6', 'Gas', 200.45, 'GasDistribution Inc.', '2024-12-07 16:25:00', 3.50, '19:00-21:00', 'SENSOR006'),
-    ('U007', 'DHAKA7', 'Electricity', 1150.80, 'PowerGrid Ltd.', '2024-12-07 16:30:00', 5.20, '10:00-12:00', 'SENSOR007'),
-    ('U008', 'DHAKA8', 'Water', 900.25, 'WaterSupply Co.', '2024-12-07 16:35:00', 2.10, '05:00-07:00', 'SENSOR008'),
-    ('U009', 'DHAKA9', 'Gas', 450.50, 'GasDistribution Inc.', '2024-12-07 16:40:00', 3.50, '15:00-17:00', 'SENSOR009'),
-    ('U010', 'DHAKA0', 'Electricity', 1300.00, 'PowerGrid Ltd.', '2024-12-07 16:45:00', 5.20, '11:00-13:00', 'SENSOR010');
+-- 1 List of all department name and department id
+select d.department_name AS "Department Name", d.Department_ID AS "Department Id" 
+from Department d; 
+
+-- 2 Top performinng departments in IoT usage:
+SELECT d.Department_Name, COUNT(iot.Device_ID) AS Active_Devices
+FROM IoT_Devices iot
+JOIN Department d ON iot.Department_ID = d.Department_ID
+WHERE iot.Device_Status = 'Active'
+GROUP BY d.Department_ID
+ORDER BY Active_Devices DESC;
+
+-- 3 Location with active IoT Devices
+SELECT DISTINCT Location_Name AS Location_Name
+FROM  IoT_Devices iot
+JOIN Location l ON iot.Location_ID = l.Location_ID
+WHERE iot.Device_Status = 'Active';
+
+-- 4 Service Provided by each department
+SELECT d.Department_Name AS "Department Name",ps.Service_Type AS "Service Type" 
+FROM Public_Services ps
+JOIN Department d ON ps.Department_ID = d.Department_ID;
+
+-- 5Recent Traffic Data
+SELECT  l.Location_name AS "Location" , l.Location_ID AS "Location Id",Traffic_ID AS "Traffic Id",  Congestion_Level AS "Congestion Level", Timestamp AS "Time"
+FROM Traffic_Data, location l
+ORDER BY Timestamp DESC 
+LIMIT 10;
+
+-- 6 Citizens Registered This Month
+SELECT COUNT(*) AS "Monthly Registrations" 
+FROM CitizenRegistration 
+WHERE  MONTH(Registration_Date) = MONTH(CURDATE()) AND YEAR(Registration_Date) = YEAR(CURDATE());
+ 
+ -- 7 Citizens name and national id who Registered This Month
+SELECT  ci.Name AS "Name", ci.National_ID AS "National ID" 
+FROM citizen_info ci 
+WHERE  MONTH(ci.City_Registration_Date) = MONTH(CURDATE()) AND YEAR(ci.City_Registration_Date) = YEAR(CURDATE());
+
+-- 8 Rejected Cizienshipo applicnats name and National Id and address
+SELECT  cg.Full_Name AS "Name", cg.National_ID AS "National ID" , cg.address as "Address"
+FROM CitizenRegistration cg
+WHERE  cg.Approval_Status = "Rejected";
+
+-- 9 Approved Cizienship applicnats details
+SELECT CR.Registration_ID AS "Regrastation Id", CR.Full_Name as "Full Name", CI.Citizen_ID as "Citizen Id", CI.Name,  CI.Email as "Email" 
+FROM CitizenRegistration CR 
+JOIN Citizen_Info CI 
+ON CR.Registration_ID = CI.Citizen_ID
+WHERE CR.Approval_Status = 'Approved';
 
 
-select * 
-from utility_monitoring;
+-- 10Citizenship application Approval Querry
+UPDATE CitizenRegistration
+SET Approval_Status = 'Approved'
+WHERE Registration_ID LIKE 'CIT%' AND National_ID LIKE '199%';
+
+-- 11Citizenship application  Rejection Querry
+UPDATE CitizenRegistration
+SET Approval_Status = 'Rejected'
+WHERE Registration_ID LIKE 'CIT%' AND National_ID NOT LIKE '199%';
+ 
+-- 12 Find Citizens with Pending Registrations
+SELECT CR.Registration_ID, CR.Full_Name, CR.Email 
+FROM CitizenRegistration CR 
+LEFT JOIN Citizen_Info CI 
+ON CR.Registration_ID = CI.Citizen_ID
+WHERE CI.Citizen_ID IS NULL AND CR.Approval_Status = 'Pending';
+
+-- 13List of all city officials and their departments
+SELECT CO.Name AS "Official Name", CO.Official_ID AS "ID", CO.Role as "Role", D.Department_Name as "Department Name"
+FROM City_Official CO 
+JOIN Department D 
+ON CO.Department_ID = D.Department_ID;
+
+-- 14Find Departmental Head
+SELECT D.Department_Name, CO.Name AS Head_Name 
+FROM Department D 
+JOIN City_Official CO 
+ON D.Head_Official_ID = CO.Official_ID;
+
+-- 15List of services with feedbacks
+SELECT PS.Service_Type, F.Feedback_Type, F.Rating 
+FROM Public_Services PS 
+JOIN Feedback F 
+ON PS.Service_ID = F.Service_ID;
+
+-- 16Counting feedbacks by services
+SELECT PS.Service_Type, COUNT(F.Feedback_ID) AS Total_Feedbacks 
+FROM Public_Services PS 
+JOIN Feedback F 
+ON PS.Service_ID = F.Service_ID
+GROUP BY PS.Service_Type;
+
+-- 17
+SELECT CL.Citizen_ID, CI.Name, CL.Location_ID, L.Location_Name, L.Location_ID
+FROM Citizen_Location CL JOIN Citizen_Info CI ON CL.Citizen_ID = CI.Citizen_ID JOIN Location L 
+ON CL.Location_ID = L.Location_ID;
+
+-- 18List Traffic Data by IoT Device
+
+SELECT TD.Traffic_ID, TD.Vehicle_Count, ID.Device_Type 
+FROM Traffic_Data TD 
+JOIN IoT_Devices ID 
+ON TD.Device_ID = ID.Device_ID;
+
+-- 19 location with high vehicle count
+SELECT L.Location_Name, SUM(TD.Vehicle_Count) AS Total_Vehicles 
+FROM Traffic_Data TD 
+JOIN Location L 
+ON TD.Location_ID = L.Location_ID
+GROUP BY L.Location_Name 
+HAVING Total_Vehicles > 100;
+
+-- 20 Locations where no citizens live
+SELECT L.Location_Name 
+FROM Location L 
+LEFT JOIN Citizen_Location CL 
+ON L.Location_ID = CL.Location_ID
+WHERE CL.Citizen_ID IS NULL;
+
+-- 21Counting citizens in each area
+SELECT L.Location_Name AS "Location Name", COUNT(CL.Citizen_ID) AS "Total Citizens" 
+FROM Location L 
+LEFT JOIN Citizen_Location CL 
+ON L.Location_ID = CL.Location_ID
+GROUP BY L.Location_Name;
+
+-- 22 List of citizens with their location and ity
+SELECT CI.Name, L.Location_Name, L.City 
+FROM Citizen_Info CI 
+JOIN Citizen_Location CL 
+ON CI.Citizen_ID = CL.Citizen_ID 
+JOIN Location L 
+ON CL.Location_ID = L.Location_ID;
+
+-- 23List Maintenance Activities by Department
+SELECT IM.Maintenance_Type, IM.Status, D.Department_Name 
+FROM Infrastructure_Maintenance IM 
+JOIN Department D 
+ON IM.Department_ID = D.Department_ID;
+
+-- 24Counting Maintenance Activities per Department
+SELECT D.Department_Name, COUNT(IM.Maintenance_ID) AS Total_Maintenance 
+FROM Department D 
+LEFT JOIN Infrastructure_Maintenance IM 
+ON D.Department_ID = IM.Department_ID
+GROUP BY D.Department_Name;
+
+-- 25 List of Ongoing maintenance in each location 
+SELECT L.Location_Name, IM.Maintenance_Type, IM.Status 
+FROM Infrastructure_Maintenance IM 
+JOIN Location L 
+ON IM.Location_ID = L.Location_ID
+WHERE IM.Status = 'Ongoing';
+
+-- 26 location with low vehicle count
+SELECT L.Location_Name, SUM(TD.Vehicle_Count) AS Total_Vehicles 
+FROM Traffic_Data TD 
+JOIN Location L 
+ON TD.Location_ID = L.Location_ID
+GROUP BY L.Location_Name 
+HAVING Total_Vehicles < 100;
+
+-- 27Finding All Requests by Citizens Along With Their Names
+SELECT SR.Request_ID, CI.Name AS Citizen_Name, SR.Request_Status, SR.Request_Date 
+FROM Service_Request SR
+JOIN Citizen_Info CI 
+ON SR.Citizen_ID = CI.Citizen_ID;
+
+-- 28 Finding Officials with the Most Pending Requests
+SELECT CO.Name AS "Official Name", COUNT(SR.Request_ID) AS "Pending Requests" 
+FROM Service_Request SR
+JOIN City_Official CO 
+ON SR.Assigned_Official_ID = CO.Official_ID
+WHERE SR.Request_Status = 'Pending'
+GROUP BY CO.Name
+ORDER BY Pending_Requests DESC;
+
+-- 29 Fing locations with highest number of request
+SELECT 
+    L.Location_Name, 
+    SR.Request_Status AS Request_Type, 
+    COUNT(SR.Request_ID) AS Total_Requests, 
+    GROUP_CONCAT(SR.Request_Description SEPARATOR '; ') AS Request_Details
+FROM Service_Request SR
+JOIN Citizen_Location CL 
+    ON SR.Citizen_ID = CL.Citizen_ID
+JOIN Location L 
+    ON CL.Location_ID = L.Location_ID
+GROUP BY L.Location_Name, SR.Request_Status
+ORDER BY Total_Requests DESC;
+
+-- 30 Retrieveing Unresolved Feedback
+SELECT Feedback_ID, Description 
+FROM Feedback 
+WHERE Resolved_Status = FALSE;
+
+-- 31List Available Services
+SELECT Service_Type AS "Service Type", Service_Description AS "Service description" 
+FROM Public_Services 
+WHERE Availability_Status = 'Available';
+
+-- 32Find Services with a Fee Above 500 taka
+SELECT Service_Type, Service_Fee 
+FROM Public_Services 
+WHERE Service_Fee > 500.00;
+
+-- 33Find Services with a Fee below 500 taka
+SELECT Service_Type, Service_Fee 
+FROM Public_Services 
+WHERE Service_Fee < 500.00;
+
+-- 34 Counting Service request by status
+SELECT Request_Status As "Service Request Status", COUNT(*) AS "Total Request Count" 
+FROM Service_Request 
+GROUP BY Request_Status;
+
+-- 35 Finding Locations with the Most Frequent Services Requested and Assigned Official Details
+SELECT L.Location_Name AS "Location",COUNT(SR.Request_ID)  AS "Total Request Count",CO.Name AS "Assigned Official",CO.Role AS "Role",PS.Service_Type AS "Most Frequent Service"
+FROM Service_Request SR
+JOIN Citizen_Location CL 
+    ON SR.Citizen_ID = CL.Citizen_ID
+JOIN Location L 
+    ON CL.Location_ID = L.Location_ID
+JOIN City_Official CO 
+    ON SR.Assigned_Official_ID = CO.Official_ID
+JOIN Public_Services PS 
+    ON SR.Service_ID = PS.Service_ID
+GROUP BY L.Location_Name, CO.Name, CO.Role, PS.Service_Type
+ORDER BY COUNT(SR.Request_ID) DESC;
+
+-- 36 List of locations Experiencing Extreme Weather
+SELECT L.Location_Name AS "Location", W.Weather_Condition AS "Weather Condition", W.Temperature AS "Temperature", W.Wind_Speed AS "Wind Speed", W.Humidity AS "Humidity"
+FROM Weather_Condition_Data W
+JOIN Location L 
+ON W.Location_ID = L.Location_ID
+WHERE W.Wind_Speed > 50 OR W.Weather_Condition IN ('Foggy', 'Stormy')
+ORDER BY W.Wind_Speed DESC, W.Humidity DESC;
+
+-- 37Average Temperature and Humidity by Weather Condition
+SELECT Weather_Condition, AVG(Temperature) AS Avg_Temperature,AVG(Humidity) AS Avg_Humidity
+FROM Weather_Condition_Data
+GROUP BY Weather_Condition
+ORDER BY Avg_Temperature DESC;
+
+-- 38Monthly Average Weather Statistics
+SELECT MONTH(Observation_Date) AS Month, AVG(Temperature) AS "Average Temperature", AVG(Humidity) AS "Average Humidity", AVG(Wind_Speed) AS "Average Wind Speed"
+FROM Weather_Condition_Data
+GROUP BY MONTH(Observation_Date)
+ORDER BY Month;
+
+-- 39
+SELECT L.Location_Name AS "Location Name", AVG(TD.Vehicle_Count) AS "Average Vehicle Count",AVG(TD.Congestion_Level) AS "Average Congestion Level",MAX(TD.Accident_Reports) AS "Accidents Reported"
+FROM Traffic_Data TD
+JOIN Location L 
+    ON TD.Location_ID = L.Location_ID
+GROUP BY L.Location_Name
+ORDER BY AVG(TD.Congestion_Level) DESC, AVG(TD.Vehicle_Count)  DESC;
+
+
+-- 40.City Official details who don't have any supervisors
+SELECT CO.Official_ID AS "Official ID", CO.Name AS "Name", CO.Role AS "Role", CO.Department_ID AS "Deparment ID", D.Department_Name AS "Department Name", CO.Phone_Number AS "Contact Number" , CO.Email, CO.Years_Of_Service AS "Service years",
+    CO.Qualifications,CO.Address
+FROM City_Official CO
+LEFT JOIN Department D 
+    ON CO.Department_ID = D.Department_ID
+WHERE CO.Supervisor_ID IS NULL;
+
