@@ -1,0 +1,6 @@
+Maintenance_ID,Location_ID,Department_ID,Maintenance_Type,Start_Date,End_Date,Status,Cost,Contractor_Name,Additional_Info
+M001,DHAKA1,103,"Gulshan Link Road Repair",2024-01-01,2024-01-10,Completed,15000.00,"Abdul Momen Contractors","Repair of potholes on Main Street."
+M002,DHAKA2,109,"Bank Building Maintainance",2024-12-15,NULL,Ongoing,20000.00,"24th Army Brigade ","Upgrading and maitainance of the diffected bank building."
+M004,DHAKA11,102,"Bridge Inspection",2024-03-01,2024-03-05,Completed,5000.00,"BridgeCo Inspections","Annual safety inspection of the River Bridge."
+M005,DHAKA9,109,"Hospital building repair",2024-03-10,NULL,Planned,3000.00,"Abdul Momen Group","ICDDRB building repair."
+M006,DHAKA9,NULL,"Park Renovation",2024-01-20,2024-02-20,Completed,25000.00,"Green Earth Landscaping","Renovation of the central park with new pathways and landscaping."

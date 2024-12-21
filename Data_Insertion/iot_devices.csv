@@ -1,0 +1,43 @@
+Device_ID,Device_Type,Department_ID,Location_ID,Installation_Date,Device_Status,Last_Communication_Timestamp,Manufacturer,Battery_Status
+SENSOR001,"Temperature Sensor",104,DHAKA1,2023-01-15,Active,"2024-12-07 14:20:00",SensTech,85%
+SENSOR002,"Humidity Sensor",104,DHAKA2,2023-02-20,Active,"2024-12-07 14:25:00",WeatherPro,78%
+SENSOR003,"Air Quality Monitor",104,DHAKA3,2023-03-10,Inactive,"2024-12-07 13:50:00",EnviroCheck,"Battery Low"
+SENSOR004,"Water Level Sensor",104,DHAKA4,2023-04-05,Active,"2024-12-07 14:30:00",AquaSense,92%
+SENSOR005,"Motion Detector",110,DHAKA5,2023-05-12,Active,"2024-12-07 14:15:00",SecureIt,80%
+SENSOR006,"Pressure Sensor",110,DHAKA6,2023-06-08,Active,"2024-12-07 14:10:00",PressurTech,75%
+SENSOR007,"Proximity Sensor",110,DHAKA7,2023-07-14,Inactive,"2024-12-06 18:45:00",ProxiMatic,60%
+SENSOR008,"Light Intensity Sensor",110,DHAKA8,2023-08-01,Active,"2024-12-07 14:00:00",BrightSense,90%
+SENSOR009,"Sound Level Sensor",110,DHAKA9,2023-09-19,Active,"2024-12-07 13:55:00",AcoustiCare,82%
+SENSOR010,"Gas Leak Detector",101,DHAKA0,2023-10-25,Active,"2024-12-07 14:05:00",SafeGasTech,88%
+SENSOR011,"Infrared Sensor",104,DHAKA11,2023-11-11,Active,"2024-12-07 14:40:00",IRMax,95%
+SENSOR012,"UV Index Sensor",110,DHAKA12,2023-12-02,Inactive,"2024-12-06 15:20:00",UltraSafe,"Battery Low"
+SENSOR013,"Vibration Sensor",110,DHAKA13,2023-01-28,Active,"2024-12-07 14:50:00",VibraTech,70%
+SENSOR014,"Smoke Detector",104,DHAKA14,2023-02-16,Inactive,"2024-12-06 17:30:00",FireSecure,"Low Battery"
+SENSOR015,"Flood Sensor",104,DHAKA15,2023-03-05,Active,"2024-12-07 14:35:00",FloodGuard,85%
+SENSOR016,"GPS Tracker",110,DHAKA16,2023-04-20,Active,"2024-12-07 14:45:00",GeoLocator,77%
+SENSOR017,"Barcode Scanner",110,DHAKA17,2023-05-30,Active,"2024-12-07 13:50:00",ScanTech,90%
+SENSOR018,"RFID Sensor",110,DHAKA18,2023-06-25,Active,"2024-12-07 14:55:00",IDSecure,"Battery Full"
+SENSOR019,Magnetometer,110,DHAKA19,2023-07-10,Active,"2024-12-07 13:45:00",MagSense,85%
+SENSOR020,"Energy Meter",110,DHAKA20,2023-08-15,Active,"2024-12-07 14:10:00",EnerTech,88%
+SENSOR021,"Traffic Sensor",103,DHAKA1,2023-01-15,Active,"2024-11-01 08:00:00",SensorTech,80%
+SENSOR022,"Traffic Sensor",103,DHAKA2,2023-02-10,Active,"2024-11-01 09:00:00",SensorTech,65%
+SENSOR023,"Traffic Sensor",103,DHAKA3,2023-03-05,Active,"2024-11-01 07:45:00",SensorTech,62%
+SENSOR024,"Traffic Sensor",103,DHAKA4,2023-04-20,Active,"2024-11-01 10:15:00",SensorTech,68%
+SENSOR025,"Traffic Sensor",103,DHAKA5,2023-05-10,Active,"2024-11-01 11:00:00",SensorTech,54%
+SENSOR026,"Traffic Sensor",103,DHAKA6,2023-06-15,Active,"2024-11-01 06:30:00",SensorTech,59%
+SENSOR027,"Traffic Sensor",103,DHAKA7,2023-07-25,Active,"2024-11-01 17:00:00",SensorTech,5%
+SENSOR028,"Traffic Sensor",103,DHAKA8,2023-08-30,Active,"2024-11-01 12:30:00",SensorTech,45%
+SENSOR029,"Traffic Sensor",103,DHAKA8,2023-09-15,Active,"2024-11-01 18:45:00",SensorTech,95%
+SENSOR030,"Traffic Sensor",103,DHAKA9,2023-10-10,Active,"2024-11-01 05:30:00",SensorTech,100%
+SENSOR031,"Traffic Sensor",103,DHAKA0,2023-01-15,Active,"2024-11-01 08:00:00",SensorTech,75%
+SENSOR032,"Traffic Sensor",103,DHAKA11,2023-02-10,Active,"2024-11-01 09:00:00",SensorTech,49%
+SENSOR033,"Traffic Sensor",103,DHAKA12,2023-03-05,Active,"2024-11-01 07:45:00",SensorTech,69%
+SENSOR034,"Traffic Sensor",103,DHAKA13,2023-04-20,Active,"2024-11-01 10:15:00",SensorTech,90%
+SENSOR035,"Traffic Sensor",103,DHAKA14,2023-05-10,Active,"2024-11-01 11:00:00",SensorTech,58%
+SENSOR036,"Traffic Sensor",103,DHAKA15,2023-06-15,Active,"2024-11-01 06:30:00",SensorTech,64%
+SENSOR037,"Traffic Sensor",103,DHAKA16,2023-07-25,Active,"2024-11-01 17:00:00",SensorTech,45%
+SENSOR038,"Traffic Sensor",103,DHAKA17,2023-08-30,Active,"2024-11-01 12:30:00",SensorTech,55%
+SENSOR039,"Traffic Sensor",103,DHAKA18,2023-09-15,Active,"2024-11-01 18:45:00",SensorTech,25%
+SENSOR040,"Traffic Sensor",103,DHAKA19,2023-10-10,Active,"2024-11-01 05:30:00",SensorTech,49%
+SENSOR041,"Traffic Sensor",103,DHAKA20,2023-09-15,Active,"2024-11-01 18:45:00",SensorTech,56%
+SENSOR042,"Traffic Sensor",103,DHAKA19,2023-10-10,Active,"2024-11-01 05:30:00",SensorTech,79%

@@ -1,0 +1,11 @@
+Feedback_ID,Citizen_ID,Service_ID,Assigned_Official_ID,Feedback_Date,Feedback_Type,Description,Rating,Resolved_Status,Resolution_Date
+FB001,CIT001,PS001,DEF002,2024-12-01,Complaint,"The service was delayed.",2.0,0,NULL
+FB002,CIT002,PS002,CF1,2024-12-02,Praise,"The officer was very helpful and efficient.",5.0,1,2024-12-02
+FB003,CIT003,PS003,CF1,2024-12-03,Suggestion,"Consider extending service hours to weekends.",4.0,0,NULL
+FB004,CIT004,PS004,CF1,2024-12-04,Complaint,"Difficulties in reaching support during emergencies.",3.0,0,NULL
+FB005,CIT005,PS005,CF1,2024-12-05,Praise,"Prompt response and excellent resolution.",5.0,1,2024-12-05
+FB006,CIT006,PS006,CF1,2024-12-06,Complaint,"Response time could be improved.",3.5,0,NULL
+FB007,CIT007,PS007,HLT002,2024-12-07,Praise,"Vaccination service was very organized.",5.0,1,2024-12-07
+FB008,CIT008,PS008,EDU002,2024-12-08,Suggestion,"Consider reducing the membership fee.",4.5,0,NULL
+FB009,CIT009,PS009,FIN002,2024-12-09,Complaint,"Tax consultation fee is too high.",2.0,0,NULL
+FB010,CIT010,PS010,CF1,2024-12-10,Praise,"Wi-Fi service is fast and reliable.",5.0,1,2024-12-10

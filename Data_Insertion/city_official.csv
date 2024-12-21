@@ -1,0 +1,10 @@
+Official_ID,Citizen_ID,Name,Department_ID,Role,Phone_Number,Email,Years_Of_Service,Qualifications,Address,Supervisor_ID
+CF1,CIT001,"Professor Dr. Kamruddin Nur",1,"City Mayor",01777354323,kamruddin.nur@citygov.org,15,"PhD in Ubiquitous Computing","House: 91; Road:04; Block:B, Banani Dhaka-1213",NULL
+DEF001,CIT002,"Hasnat Karibul Islam",101,"Department Head",011316619278,hasnat.islam@citygov.org,13,"PhD in Molecular Engineering","House 526, Road 17, Block J, Bashundhara R/A",CF1
+DEF002,CIT004,"Nur Ibne Kawsar Zitun",101,Officer,01876543210,nur.zitu@citygov.org,3,"MSc in Software Engineering","House 226, Road 5, Block C, Bashundhara R/A",DEF001
+EDU001,CIT006,"Sayed Mahi Ashrafi",108,"Department Head",01711221122,mahi.ashrafi@citygov.org,12,"PhD in Education Management","House 26, Road 2, Block D, Nikunja R/A",CF1
+EDU002,CIT008,"Meher Easha",108,Officer,01711223344,meher.easha@citygov.org,6,"Masters in Public Administration","House 126, Road 8, Block C, Bashundhara R/A",EDU001
+FIN001,CIT007,"Ivy Khan",109,"Department Head",01316619278,ivy.khan@citygov.org,10,"PhD in Management AND HR","House 427, Road 8, Block D, Bashundhara R/A",CF1
+FIN002,CIT012,"Ayesha Rahman",109,"Senior Officer",01712345678,ayesha.rahman@citygov.org,5,"Masters in Urban Planning","House 32, Sector 7, Uttara, Dhaka",FIN001
+HLT001,CIT003,"Md. Minhajul Islam",107,"Department Head",01756619289,minhajul.islam@citygov.org,12,"PhD in Pharmaceutical Science","House 257, Road 5, Block C, Bashundhara R/A",CF1
+HLT002,CIT015,"Khaled Mahmud",107,"Senior Officer",01899887766,khaled.mahmud@citygov.org,12,"Bachelor’s in Environmental Engineering","House 22, Bashundhara R/A, Block F, Dhaka",HLT001

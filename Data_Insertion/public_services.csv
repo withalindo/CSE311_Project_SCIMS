@@ -1,0 +1,11 @@
+Service_ID,Department_ID,Service_Type,Service_Description,Availability_Status,Average_Response_Time,Service_Fee
+PS001,101,"Emergency Rescue","Provide immediate rescue operations during natural disasters and accidents.",Available,0.33,0.00
+PS002,102,"Bridge Inspection","Conduct routine inspections and maintenance of city bridges.",Available,72.00,0.00
+PS003,103,"Traffic Management","Monitor and regulate traffic flow across the city.",Available,0.25,0.00
+PS004,104,"Water Quality Monitoring","Test and ensure safe drinking water supply to households.",Unavailable,NULL,200.00
+PS005,105,"Urban Redevelopment","Plan and execute redevelopment projects in underutilized areas.",Available,96.00,10000.00
+PS006,106,"Disaster Recovery","Coordinate recovery efforts after major disasters.",Available,2.00,0.00
+PS007,107,"Vaccination Programs","Administer free vaccines for common diseases.",Available,0.50,0.00
+PS008,108,"Library Membership","Provide access to public libraries and online resources.",Available,0.08,500.00
+PS009,109,"Tax Consultation","Assist citizens in calculating and paying city taxes.",Available,0.08,10000.00
+PS010,110,"Wi-Fi Services","Offer free public Wi-Fi in selected urban zones.",Available,0.17,500.00

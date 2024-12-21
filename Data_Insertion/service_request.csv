@@ -1,0 +1,11 @@
+Request_ID,Citizen_ID,Service_ID,Request_Date,Request_Status,Assigned_Official_ID,Request_Description,Completion_Date
+REQ001,CIT005,PS001,2024-12-01,Pending,CF1,"Need immediate rescue operations after flood damage.",NULL
+REQ002,CIT015,PS002,2024-12-02,"In Progress",DEF002,"Routine inspection for bridge maintenance.",NULL
+REQ003,CIT014,PS003,2024-12-03,Completed,CF1,"Traffic signal repair in downtown area.",2024-12-05
+REQ004,CIT012,PS004,2024-12-04,Rejected,CF1,"Water quality testing for municipal supply.",NULL
+REQ005,CIT005,PS005,2024-12-05,Pending,CF1,"Urban redevelopment planning for old city blocks.",NULL
+REQ006,CIT006,PS006,2024-12-06,"In Progress",CF1,"Assistance required for disaster recovery.",NULL
+REQ007,CIT007,PS007,2024-12-07,Completed,HLT002,"Vaccination program support for school children.",2024-12-08
+REQ008,CIT008,PS008,2024-12-08,Pending,EDU002,"Library membership application.",NULL
+REQ009,CIT009,PS009,2024-12-09,Rejected,FIN002,"Tax consultation regarding new property.",NULL
+REQ010,CIT010,PS010,2024-12-10,Completed,CF1,"Wi-Fi service setup in urban zone.",2024-12-12
